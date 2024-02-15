@@ -5,14 +5,14 @@ using SF.Starter;
 
 var diContainer = new DiContainer();
 
-diContainer.Register<IFileRegistry, FileRegistry>(Scope.Singleton);
+diContainer.Register<IInteractableFile, InteractableFile>(Scope.Singleton);
 
 
 var factory = new InputActionsFactory(diContainer);
 var actions = factory.GetAllActions();
 while (true)
 {
-    var input = Console.ReadLine();
+    var input = Console.ReadLine().ToLower();
     if (!TryHandle(input))
     {
         Console.WriteLine($"Unknown command '{input}', please try again");

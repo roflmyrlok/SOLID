@@ -12,16 +12,16 @@ public class AddFileInputAction : InputAction<AddFileCommand>
     
 	protected override string HelpString => "add a file";
 
-	private readonly IFileRegistry fileRegistry;
+	private readonly IInteractableFile _interactableFile;
 
-	public AddFileInputAction(IFileRegistry fileRegistry)
+	public AddFileInputAction(IInteractableFile interactableFile)
 	{
-		this.fileRegistry = fileRegistry;
+		this._interactableFile = interactableFile;
 	}
 
 	protected override AddFileCommand GetCommandInternal(string[] args)
 	{
-		return new AddFileCommand(fileRegistry, args);
+		return new AddFileCommand(_interactableFile, args);
 	}
 }
 
@@ -31,13 +31,13 @@ public class AddFileCommand : Command
 
 	private readonly string filePath;
 
-	private readonly IFileRegistry registry;
+	private readonly IInteractableFile _interactable;
 
 	private readonly string name;
 
-	public AddFileCommand(IFileRegistry registry,string[] args)
+	public AddFileCommand(IInteractableFile interactable,string[] args)
 	{
-		this.registry = registry;
+		this._interactable = interactable;
 		
 		this.filePath = args[0].ToString();
 		this.name = filePath;
@@ -49,7 +49,7 @@ public class AddFileCommand : Command
 
 	public override void Execute()
 	{
-		registry.Add(filePath, name);
+		_interactable.Add(filePath, name);
 		Console.WriteLine($"FileDescriptor {filePath} added!");
 	}
 }

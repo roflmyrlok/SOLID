@@ -12,16 +12,16 @@ public class ListFilesInputAction : InputAction<ListFilesCommand>
     
 	protected override string HelpString => "list all file";
 
-	private readonly IFileRegistry fileRegistry;
+	private readonly IInteractableFile _interactableFile;
 
-	public ListFilesInputAction(IFileRegistry fileRegistry)
+	public ListFilesInputAction(IInteractableFile interactableFile)
 	{
-		this.fileRegistry = fileRegistry;
+		this._interactableFile = interactableFile;
 	}
 
 	protected override ListFilesCommand GetCommandInternal(string[] args)
 	{
-		return new ListFilesCommand(fileRegistry);
+		return new ListFilesCommand(_interactableFile);
 	}
 }
 
@@ -30,17 +30,17 @@ public class ListFilesCommand : Command
 {
 	
 
-	private readonly IFileRegistry registry;
+	private readonly IInteractableFile _interactable;
 	
 
-	public ListFilesCommand(IFileRegistry registry)
+	public ListFilesCommand(IInteractableFile interactable)
 	{
-		this.registry = registry;
+		this._interactable = interactable;
 	}
 
 	public override void Execute()
 	{
-		var files = registry.GetAll();
+		var files = _interactable.GetAll();
 		foreach (var file in files)
 		{
 			Console.WriteLine(file.Name, file.FilePath);

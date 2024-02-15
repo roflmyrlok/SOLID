@@ -12,16 +12,16 @@ public class RemoveFileInputAction : InputAction<RemoveFileCommand>
     
 	protected override string HelpString => "remove a file";
 
-	private readonly IFileRegistry fileRegistry;
+	private readonly IInteractableFile _interactableFile;
 
-	public RemoveFileInputAction(IFileRegistry fileRegistry)
+	public RemoveFileInputAction(IInteractableFile interactableFile)
 	{
-		this.fileRegistry = fileRegistry;
+		this._interactableFile = interactableFile;
 	}
 
 	protected override RemoveFileCommand GetCommandInternal(string[] args)
 	{
-		return new RemoveFileCommand(fileRegistry, args);
+		return new RemoveFileCommand(_interactableFile, args);
 	}
 }
 
@@ -30,20 +30,20 @@ public class RemoveFileCommand : Command
 {
 	
 
-	private readonly IFileRegistry registry;
+	private readonly IInteractableFile _interactable;
 
 	private readonly string filePath;
 
-	public RemoveFileCommand(IFileRegistry registry,string[] args)
+	public RemoveFileCommand(IInteractableFile interactable,string[] args)
 	{
-		this.registry = registry;
+		this._interactable = interactable;
 		
 		this.filePath = args[0].ToString();
 	}
 
 	public override void Execute()
 	{
-		registry.Remove(filePath);
+		_interactable.Remove(filePath);
 		Console.WriteLine($"FileDescriptor {filePath} removed!");
 	}
 }
