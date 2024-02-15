@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <OutputType>Exe</OutputType>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\DI.Core\DI.Core.csproj" />
+      <ProjectReference Include="..\SF.Commands\SF.Commands.csproj" />
+      <ProjectReference Include="..\SF.Core\SF.Core.csproj" />
+      <ProjectReference Include="..\SF.Domain\SF.Domain.csproj" />
+    </ItemGroup>
+</Project>
