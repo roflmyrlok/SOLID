@@ -49,6 +49,11 @@ public class AddFileCommand : Command
 
 	public override void Execute()
 	{
+		if (!_interactable.Exist(filePath))
+		{
+			Console.WriteLine($"no file at {filePath}!");
+			return;
+		}
 		_interactable.Add(filePath, name);
 		Console.WriteLine($"FileDescriptor {filePath} added!");
 	}

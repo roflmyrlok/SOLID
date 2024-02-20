@@ -8,7 +8,7 @@ public interface IInteractableFileTxt : IInteractableFile
 	List<string> GetFileSummary(string filePath);
 }
 
-public class InteractableFileTxt
+public class InteractableFileTxt : InteractableFile, IInteractableFileTxt
 {
 	public List<string> GetFileSummary(string filePath)
 	{

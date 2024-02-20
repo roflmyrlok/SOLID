@@ -43,6 +43,10 @@ public class RemoveFileCommand : Command
 
 	public override void Execute()
 	{
+		if (!_interactable.Exist(filePath))
+		{
+			Console.WriteLine($"no file at {filePath}!");
+		}
 		_interactable.Remove(filePath);
 		Console.WriteLine($"FileDescriptor {filePath} removed!");
 	}

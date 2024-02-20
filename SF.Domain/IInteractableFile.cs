@@ -12,5 +12,7 @@ public interface IInteractableFile
     string GetFileFullPath(string filePath);
 
     string GetFileExtension(string filePath);
+
+    bool Exist(string filePath);
 }
 

@@ -43,6 +43,11 @@ public class OptionsOfFileCommand : Command
 
 	public override void Execute()
 	{
+		if (!_interactable.Exist(filePath))
+		{
+			Console.WriteLine($"no file at {filePath}!");
+			return;
+		}
 		var answerList = new List<string>{};
 		var extention = _interactable.GetFileExtension(filePath);
 		answerList.Add("filepath: " + _interactable.GetFileFullPath(filePath));
@@ -51,6 +56,10 @@ public class OptionsOfFileCommand : Command
 		{
 			case ".txt":
 				answerList.Add("available: summary");
+				break;
+			case ".csv":
+			case ".json":
+				answerList.Add("available: print, validate");
 				break;
 		}
 			

@@ -61,4 +61,14 @@ public class InteractableFile : IInteractableFile
 	{
 		return Path.GetExtension(filePath);
 	}
+
+	public bool Exist(string filePath)
+	{
+		if (File.Exists(filePath))
+		{
+			return true;
+		}
+
+		return false;
+	}
 }
