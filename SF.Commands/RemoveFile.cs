@@ -1,53 +1,58 @@
 using SF.Core;
 using SF.Domain;
+using System;
 
-namespace SF.Commands;
-
-[InputAction]
-public class RemoveFileInputAction : InputAction<RemoveFileCommand>
+namespace SF.Commands
 {
-	protected override string Module => "file";
-
-	protected override string Action => "remove";
-    
-	protected override string HelpString => "remove a file";
-
-	private readonly IInteractableFile _interactableFile;
-
-	public RemoveFileInputAction(IInteractableFile interactableFile)
+	[InputAction]
+	public class RemoveFileInputAction : InputAction<RemoveFileCommand>
 	{
-		this._interactableFile = interactableFile;
-	}
+		protected override string Module => "file";
+		protected override string Action => "remove";
+		protected override string HelpString => "remove a file";
 
-	protected override RemoveFileCommand GetCommandInternal(string[] args)
-	{
-		return new RemoveFileCommand(_interactableFile, args);
-	}
-}
+		private readonly IFileSystem _fileSystem;
 
-[Command]
-public class RemoveFileCommand : Command
-{
-	
-
-	private readonly IInteractableFile _interactable;
-
-	private readonly string filePath;
-
-	public RemoveFileCommand(IInteractableFile interactable,string[] args)
-	{
-		this._interactable = interactable;
-		
-		this.filePath = args[0].ToString();
-	}
-
-	public override void Execute()
-	{
-		if (!_interactable.Exist(filePath))
+		public RemoveFileInputAction(IFileSystem fileSystem)
 		{
-			Console.WriteLine($"no file at {filePath}!");
+			_fileSystem = fileSystem;
 		}
-		_interactable.Remove(filePath);
-		Console.WriteLine($"FileDescriptor {filePath} removed!");
+
+		protected override RemoveFileCommand GetCommandInternal(string[] args)
+		{
+			if (args.Length < 1)
+			{
+				throw new ArgumentException("File name is required for remove command.");
+			}
+
+			return new RemoveFileCommand(_fileSystem, args[0]);
+		}
+	}
+
+	[Command]
+	public class RemoveFileCommand : Command
+	{
+		private readonly IFileSystem _fileSystem;
+		private readonly string _filePath;
+
+		public RemoveFileCommand(IFileSystem fileSystem, string filePath)
+		{
+			_fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
+			_filePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
+		}
+
+		public override void Execute()
+		{
+			
+			var tmp = _fileSystem.Remove(_filePath);
+			if (tmp)
+			{
+				Console.WriteLine($"FileDescriptor {_filePath} removed!");
+			}
+			else
+			{
+				Console.WriteLine($"no {_filePath} !");
+			}
+		}
 	}
 }

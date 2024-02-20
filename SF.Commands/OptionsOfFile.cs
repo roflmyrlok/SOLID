@@ -1,67 +1,87 @@
 using SF.Core;
 using SF.Domain;
+using System;
+using System.Collections.Generic;
 
-namespace SF.Commands;
-
-[InputAction]
-public class OptionsOfFileInputAction : InputAction<OptionsOfFileCommand>
+namespace SF.Commands
 {
-	protected override string Module => "file";
+    [InputAction]
+    public class OptionsOfFileInputAction : InputAction<OptionsOfFileCommand>
+    {
+        protected override string Module => "file";
+        protected override string Action => "options";
+        protected override string HelpString => "options of a file";
 
-	protected override string Action => "options";
-    
-	protected override string HelpString => "options of a file";
+        private readonly IFileSystem _fileSystem;
 
-	private readonly IInteractableFile _fileTxtInteractable;
+        public OptionsOfFileInputAction(IFileSystem fileSystem)
+        {
+            _fileSystem = fileSystem;
+        }
 
-	public OptionsOfFileInputAction(IInteractableFile fileInteractable)
-	{
-		this._fileTxtInteractable = fileInteractable;
-	}
+        protected override OptionsOfFileCommand GetCommandInternal(string[] args)
+        {
+            return new OptionsOfFileCommand(_fileSystem, args);
+        }
+    }
 
-	protected override OptionsOfFileCommand GetCommandInternal(string[] args)
-	{
-		return new OptionsOfFileCommand(_fileTxtInteractable, args);
-	}
-}
+    [Command]
+    public class OptionsOfFileCommand : Command
+    {
+        private readonly IFileSystem _fileSystem;
+        private readonly string _filePath;
 
-[Command]
-public class OptionsOfFileCommand : Command
-{
-	
+        public OptionsOfFileCommand(IFileSystem fileSystem, string[] args)
+        {
+            _fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
 
-	private readonly IInteractableFile _interactable;
+            if (args.Length < 1)
+            {
+                throw new ArgumentException("File path argument is missing.");
+            }
 
-	private readonly string filePath;
+            _filePath = args[0];
+        }
 
-	public OptionsOfFileCommand(IInteractableFile interactable,string[] args)
-	{
-		this._interactable = interactable;
-		
-		this.filePath = args[0].ToString();
-	}
+        public override void Execute()
+        {
+            string fullPath;
+            long fileSize;
+            string extension;
+            var answerList = new List<string>();
+            try
+            {
+                fullPath = _fileSystem.GetFileFullPath(_filePath);
+                fileSize = _fileSystem.GetFileSizeInBytes(_filePath);
+                extension = _fileSystem.GetFileExtension(_filePath);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return;
+            }
 
-	public override void Execute()
-	{
-		if (!_interactable.Exist(filePath))
-		{
-			Console.WriteLine($"no file at {filePath}!");
-			return;
-		}
-		var answerList = new List<string>{};
-		var extention = _interactable.GetFileExtension(filePath);
-		answerList.Add("filepath: " + _interactable.GetFileFullPath(filePath));
-		answerList.Add("file Size:" +_interactable.GetFileSizeInBytes(filePath).ToString() + "bytes");
-		switch (extention)
-		{
-			case ".txt":
-				answerList.Add("available: summary");
-				break;
-			case ".csv":
-			case ".json":
-				answerList.Add("available: print, validate");
-				break;
-		}
-			
-	}
+            answerList.Add($"File path: {fullPath}\n");
+            answerList.Add($"File size: {fileSize} bytes\n");
+
+            switch (extension)
+            {
+                case ".txt":
+                    answerList.Add("Available options: summary\n");
+                    break;
+                case ".csv":
+                case ".json":
+                    answerList.Add("Available options: print, validate\n");
+                    break;
+                default:
+                    answerList.Add("No specific options available for this file type.\n");
+                    break;
+            }
+
+            foreach (var line in answerList)
+            {
+                Console.Write(line);
+            }
+        }
+    }
 }

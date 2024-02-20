@@ -1,12 +1,14 @@
+using SF.Domain.Actions;
+
 namespace SF.Domain;
 
 using System;
 using System.IO;
 
-public interface IInteractableFile
+public interface IFileSystem
 { 
-    void Add(string filePath, string name);
-    void Remove(string filePath);
+    bool Add(string filePath, string name);
+    bool Remove(string filePath);
     List<FileDescriptor> GetAll();
     long GetFileSizeInBytes(string filePath);
     string GetFileFullPath(string filePath);
@@ -14,5 +16,8 @@ public interface IInteractableFile
     string GetFileExtension(string filePath);
 
     bool Exist(string filePath);
+    public T Execute<T>(string fileName, IFileActionStrategy<T> strategy);
+    
+
 }
 

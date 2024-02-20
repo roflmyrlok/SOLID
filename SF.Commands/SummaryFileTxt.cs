@@ -1,60 +1,67 @@
 using SF.Core;
 using SF.Domain;
+using SF.Domain.Actions;
+using System;
 
-namespace SF.Commands;
-
-[InputAction]
-public class SummaryFileTxtInputAction : InputAction<SummaryTxtCommand>
+namespace SF.Commands
 {
-	protected override string Module => "file";
-
-	protected override string Action => "summary";
-    
-	protected override string HelpString => "summary of a txt file";
-
-	private readonly IInteractableFile _interactableFile;
-
-	public SummaryFileTxtInputAction(IInteractableFile interactableFile)
+	[InputAction]
+	public class SummaryFileInputAction : InputAction<SummaryFile>
 	{
-		this._interactableFile = interactableFile;
-	}
+		protected override string Module => "file";
+		protected override string Action => "summary";
+		protected override string HelpString => "print summary for txt file";
 
-	protected override SummaryTxtCommand GetCommandInternal(string[] args)
-	{
-		return new SummaryTxtCommand(_interactableFile, args);
-	}
-}
+		private readonly IFileSystem _fileSystem;
 
-[Command]
-public class SummaryTxtCommand : Command
-{
-	
-
-	private readonly IInteractableFileTxt _interactable;
-
-	private readonly string filePath;
-
-	public SummaryTxtCommand(IInteractableFile interactable,string[] args)
-	{
-
-		filePath = args[0];
-		if (interactable.GetFileExtension(filePath) == ".txt")
+		public SummaryFileInputAction(IFileSystem fileSystem)
 		{
-			_interactable = (IInteractableFileTxt)interactable;
+			_fileSystem = fileSystem;
 		}
-		else
+
+		protected override SummaryFile GetCommandInternal(string[] args)
 		{
-			throw new Exception("non txt file summary");
+			return new SummaryFile(_fileSystem, args);
 		}
 	}
 
-	public override void Execute()
+	[Command]
+	public class SummaryFile : Command
 	{
-		var summary = _interactable.GetFileSummary(filePath);
-		foreach (var line in summary)
+		private readonly IFileActionStrategy<List<string>> _fileActionStrategy;
+		private readonly string _filePath;
+		private readonly IFileSystem _fileSystem;
+
+		public SummaryFile(IFileSystem fileSystem, string[] args)
 		{
-			Console.WriteLine(line);
+			_filePath = args[0];
+			_fileSystem = fileSystem;
+
+			if (fileSystem.GetFileExtension(_filePath) == ".txt")
+			{
+				_fileActionStrategy = new SummaryFileActionStrategy();
+			}
+			else
+			{
+				Console.WriteLine("non txt file summary is not supported.");
+			}
 		}
-		
+
+		public override void Execute()
+		{
+			try
+			{
+				var table = _fileSystem.Execute(_filePath, _fileActionStrategy);
+				foreach (var line in table)
+				{
+					Console.WriteLine(line);
+				}
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
+				return;
+			}
+		}
 	}
 }

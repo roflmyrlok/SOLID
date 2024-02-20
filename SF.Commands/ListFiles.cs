@@ -1,49 +1,47 @@
-namespace SF.Commands;
-
 using SF.Core;
 using SF.Domain;
+using System;
+using System.Collections.Generic;
 
-[InputAction]
-public class ListFilesInputAction : InputAction<ListFilesCommand>
+namespace SF.Commands
 {
-	protected override string Module => "file";
-
-	protected override string Action => "list";
-    
-	protected override string HelpString => "list all file";
-
-	private readonly IInteractableFile _interactableFile;
-
-	public ListFilesInputAction(IInteractableFile interactableFile)
+	[InputAction]
+	public class ListFilesInputAction : InputAction<ListFilesCommand>
 	{
-		this._interactableFile = interactableFile;
-	}
+		protected override string Module => "file";
+		protected override string Action => "list";
+		protected override string HelpString => "list all files";
 
-	protected override ListFilesCommand GetCommandInternal(string[] args)
-	{
-		return new ListFilesCommand(_interactableFile);
-	}
-}
+		private readonly IFileSystem _fileSystem;
 
-[Command]
-public class ListFilesCommand : Command
-{
-	
-
-	private readonly IInteractableFile _interactable;
-	
-
-	public ListFilesCommand(IInteractableFile interactable)
-	{
-		this._interactable = interactable;
-	}
-
-	public override void Execute()
-	{
-		var files = _interactable.GetAll();
-		foreach (var file in files)
+		public ListFilesInputAction(IFileSystem fileSystem)
 		{
-			Console.WriteLine(file.Name, file.FilePath);
+			_fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
+		}
+
+		protected override ListFilesCommand GetCommandInternal(string[] args)
+		{
+			return new ListFilesCommand(_fileSystem);
+		}
+	}
+
+	[Command]
+	public class ListFilesCommand : Command
+	{
+		private readonly IFileSystem _fileSystem;
+
+		public ListFilesCommand(IFileSystem fileSystem)
+		{
+			_fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
+		}
+
+		public override void Execute()
+		{
+			var files = _fileSystem.GetAll();
+			foreach (var file in files)
+			{
+				Console.WriteLine($"Name: {file.Name}, Path: {file.FilePath}");
+			}
 		}
 	}
 }

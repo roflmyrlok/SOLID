@@ -1,12 +1,17 @@
-﻿namespace SF.Domain;
+﻿using System;
 
-public class FileDescriptor
+namespace SF.Domain
 {
-	public string FilePath { get; set; }
-	public string Name { get; set; }
-	public FileDescriptor(string name, string filePath)
+
+	public class FileDescriptor
 	{
-		Name = name;
-		FilePath = filePath;
+		public string FilePath { get; set; }
+		public string Name { get; set; }
+
+		public FileDescriptor(string name, string filePath)
+		{
+			Name = name;
+			FilePath = filePath;
+		}
 	}
 }
