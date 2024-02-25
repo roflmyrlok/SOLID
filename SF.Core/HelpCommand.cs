@@ -2,24 +2,21 @@ namespace SF.Core;
 
 public class HelpInputAction : InputAction<HelpCommand>
 {
+    protected override string Action => "options";
 
-    protected override string Module => "help";
-
-    protected override string Action => "view";
-
-    protected override string HelpString => "view help";
+    protected override string HelpString => "options for file";
     
-    private readonly List<IInputAction> possibleCommands;
+    private readonly List<IInputAction> _possibleCommands;
 
     public HelpInputAction(List<IInputAction> possibleCommands)
     {
-        this.possibleCommands = possibleCommands;
+        this._possibleCommands = possibleCommands;
     }
 
 
     protected override HelpCommand GetCommandInternal(string[] args)
     {
-        return new HelpCommand(possibleCommands);
+        return new HelpCommand(_possibleCommands);
     }
 
 }

@@ -7,21 +7,20 @@ namespace SF.Commands
 {
 	[InputAction]
 	public class SummaryFileInputAction : InputAction<SummaryFile>
-	{
-		protected override string Module => "file";
+	{ 
 		protected override string Action => "summary";
 		protected override string HelpString => "print summary for txt file";
 
-		private readonly IFileSystem _fileSystem;
+		private readonly SystemWrapper _systemWrapper;
 
-		public SummaryFileInputAction(IFileSystem fileSystem)
+		public SummaryFileInputAction(SystemWrapper systemWrapper)
 		{
-			_fileSystem = fileSystem;
+			_systemWrapper = systemWrapper;
 		}
 
 		protected override SummaryFile GetCommandInternal(string[] args)
 		{
-			return new SummaryFile(_fileSystem, args);
+			return new SummaryFile(_systemWrapper, args);
 		}
 	}
 
@@ -30,14 +29,14 @@ namespace SF.Commands
 	{
 		private readonly IFileActionStrategy<List<string>> _fileActionStrategy;
 		private readonly string _filePath;
-		private readonly IFileSystem _fileSystem;
+		private readonly SystemWrapper _systemWrapper;
 
-		public SummaryFile(IFileSystem fileSystem, string[] args)
+		public SummaryFile(SystemWrapper systemWrapper, string[] args)
 		{
 			_filePath = args[0];
-			_fileSystem = fileSystem;
+			_systemWrapper = systemWrapper;
 
-			if (fileSystem.GetFileExtension(_filePath) == ".txt")
+			if (systemWrapper.GetFileExtension(_filePath) == ".txt")
 			{
 				_fileActionStrategy = new SummaryFileActionStrategy();
 			}
@@ -51,7 +50,7 @@ namespace SF.Commands
 		{
 			try
 			{
-				var table = _fileSystem.Execute(_filePath, _fileActionStrategy);
+				var table = _systemWrapper.Execute(_filePath, _fileActionStrategy);
 				foreach (var line in table)
 				{
 					Console.WriteLine(line);

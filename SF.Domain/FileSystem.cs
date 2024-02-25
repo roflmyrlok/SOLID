@@ -3,30 +3,19 @@ using SF.Domain.Actions;
 
 namespace SF.Domain
 {
-    public class FileSystem : IFileSystem
+    public class FileSystem
     {
         private readonly List<FileDescriptor> files = new List<FileDescriptor>();
 
-        public bool Add(string filePath, string name)
+        public void Add(string filePath, string name)
         {
-            if (!File.Exists(filePath))
-            {
-                return false;
-            }
             var fileDescriptor = new FileDescriptor(name, filePath);
             files.Add(fileDescriptor);
-            return true;
         }
 
-        public bool Remove(string arg)
+        public void Remove(string name)
         {
-            var file = files.FirstOrDefault(e => e.Name == arg) ?? files.FirstOrDefault(e => e.FilePath == arg);
-            if (file != null)
-            {
-                files.Remove(file);
-                return true;
-            }
-            return false;
+            files.Remove(files.FirstOrDefault(e => e.Name == name));
         }
 
         public List<FileDescriptor> GetAll()
@@ -59,7 +48,7 @@ namespace SF.Domain
             return Path.GetExtension(filePath);
         }
 
-        public bool Exist(string name)
+        public bool ExistByName(string name)
         {
             var file = files.FirstOrDefault(e => e.Name == name);
             if (file == null)
@@ -67,6 +56,15 @@ namespace SF.Domain
                 return false;
             }
             if (File.Exists(file.FilePath))
+            {
+                return true;
+            }
+            return false;
+        }
+        
+        public bool ExistByPath(string filePath)
+        {
+            if (File.Exists(filePath))
             {
                 return true;
             }

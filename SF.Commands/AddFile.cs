@@ -1,26 +1,24 @@
 ﻿using SF.Core;
 using SF.Domain;
-using System;
 
 namespace SF.Commands
 {
 	[InputAction]
 	public class AddFileInputAction : InputAction<AddFileCommand>
 	{
-		protected override string Module => "file";
 		protected override string Action => "add";
 		protected override string HelpString => "add a file";
 
-		private readonly IFileSystem _fileSystem;
+		private readonly SystemWrapper _systemWrapper;
 
-		public AddFileInputAction(IFileSystem fileSystem)
+		public AddFileInputAction(SystemWrapper systemWrapper)
 		{
-			_fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
+			_systemWrapper = systemWrapper;
 		}
 
 		protected override AddFileCommand GetCommandInternal(string[] args)
 		{
-			return new AddFileCommand(_fileSystem, args);
+			return new AddFileCommand(_systemWrapper, args);
 		}
 	}
 
@@ -28,12 +26,12 @@ namespace SF.Commands
 	public class AddFileCommand : Command
 	{
 		private readonly string _filePath;
-		private readonly IFileSystem _fileSystem;
+		private readonly SystemWrapper _systemWrapper;
 		private readonly string _name;
 
-		public AddFileCommand(IFileSystem fileSystem, string[] args)
+		public AddFileCommand(SystemWrapper systemWrapper, string[] args)
 		{
-			_fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
+			_systemWrapper = systemWrapper ?? throw new ArgumentNullException(nameof(systemWrapper));
 
 			if (args == null || args.Length < 1)
 			{
@@ -46,16 +44,15 @@ namespace SF.Commands
 
 		public override void Execute()
 		{
-			var tmp = _fileSystem.Add(_filePath, _name);
-			if (tmp)
+			try
 			{
-				Console.WriteLine($"FileDescriptor {_filePath} added!");
+				_systemWrapper.Add(_filePath, _name);
 			}
-			else
+			catch (Exception e)
 			{
-				Console.WriteLine($"no {_filePath}!");
+				Console.WriteLine(e.Message);
+				return;
 			}
-			
 		}
 	}
 }

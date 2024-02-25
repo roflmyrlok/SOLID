@@ -7,15 +7,14 @@ namespace SF.Commands
 	[InputAction]
 	public class RemoveFileInputAction : InputAction<RemoveFileCommand>
 	{
-		protected override string Module => "file";
 		protected override string Action => "remove";
 		protected override string HelpString => "remove a file";
 
-		private readonly IFileSystem _fileSystem;
+		private readonly SystemWrapper _systemWrapper;
 
-		public RemoveFileInputAction(IFileSystem fileSystem)
+		public RemoveFileInputAction(SystemWrapper systemWrapper)
 		{
-			_fileSystem = fileSystem;
+			_systemWrapper = systemWrapper;
 		}
 
 		protected override RemoveFileCommand GetCommandInternal(string[] args)
@@ -25,33 +24,32 @@ namespace SF.Commands
 				throw new ArgumentException("File name is required for remove command.");
 			}
 
-			return new RemoveFileCommand(_fileSystem, args[0]);
+			return new RemoveFileCommand(_systemWrapper, args[0]);
 		}
 	}
 
 	[Command]
 	public class RemoveFileCommand : Command
 	{
-		private readonly IFileSystem _fileSystem;
+		private readonly SystemWrapper _systemWrapper;
 		private readonly string _filePath;
 
-		public RemoveFileCommand(IFileSystem fileSystem, string filePath)
+		public RemoveFileCommand(SystemWrapper systemWrapper, string filePath)
 		{
-			_fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
+			_systemWrapper = systemWrapper ?? throw new ArgumentNullException(nameof(systemWrapper));
 			_filePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
 		}
 
 		public override void Execute()
 		{
-			
-			var tmp = _fileSystem.Remove(_filePath);
-			if (tmp)
+			try
 			{
-				Console.WriteLine($"FileDescriptor {_filePath} removed!");
+				_systemWrapper.Remove(_filePath);
 			}
-			else
+			catch (Exception e)
 			{
-				Console.WriteLine($"no {_filePath} !");
+				Console.WriteLine(e.Message);
+				return;
 			}
 		}
 	}

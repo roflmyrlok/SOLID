@@ -6,7 +6,7 @@ using SF.Starter;
 
 var diContainer = new DiContainer();
 
-diContainer.Register<IFileSystem, FileSystem>(Scope.Singleton);
+diContainer.Register<ISystemWrapper, SystemWrapper>(Scope.Singleton);
 diContainer.Register<IFileActionStrategy<string>, CsvTableFileActionStrategy>(Scope.Transient);
 diContainer.Register<IFileActionStrategy<string>, JsonTableFileActionStrategy>(Scope.Transient);
 diContainer.Register<IFileActionStrategy<List<string>>, SummaryFileActionStrategy>(Scope.Transient);

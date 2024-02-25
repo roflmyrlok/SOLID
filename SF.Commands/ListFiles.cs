@@ -8,39 +8,46 @@ namespace SF.Commands
 	[InputAction]
 	public class ListFilesInputAction : InputAction<ListFilesCommand>
 	{
-		protected override string Module => "file";
 		protected override string Action => "list";
 		protected override string HelpString => "list all files";
 
-		private readonly IFileSystem _fileSystem;
+		private readonly SystemWrapper _systemWrapper;
 
-		public ListFilesInputAction(IFileSystem fileSystem)
+		public ListFilesInputAction(SystemWrapper systemWrapper)
 		{
-			_fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
+			_systemWrapper = systemWrapper ?? throw new ArgumentNullException(nameof(systemWrapper));
 		}
 
 		protected override ListFilesCommand GetCommandInternal(string[] args)
 		{
-			return new ListFilesCommand(_fileSystem);
+			return new ListFilesCommand(_systemWrapper);
 		}
 	}
 
 	[Command]
 	public class ListFilesCommand : Command
 	{
-		private readonly IFileSystem _fileSystem;
+		private readonly SystemWrapper _systemWrapper;
 
-		public ListFilesCommand(IFileSystem fileSystem)
+		public ListFilesCommand(SystemWrapper systemWrapper)
 		{
-			_fileSystem = fileSystem ?? throw new ArgumentNullException(nameof(fileSystem));
+			_systemWrapper = systemWrapper ?? throw new ArgumentNullException(nameof(systemWrapper));
 		}
 
 		public override void Execute()
 		{
-			var files = _fileSystem.GetAll();
-			foreach (var file in files)
+			try
 			{
-				Console.WriteLine($"Name: {file.Name}, Path: {file.FilePath}");
+				var files = _systemWrapper.GetAllFiles();
+				foreach (var file in files)
+				{
+					Console.WriteLine(file);
+				}
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.Message);
+				return;
 			}
 		}
 	}

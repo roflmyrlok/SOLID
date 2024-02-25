@@ -11,22 +11,17 @@ public interface IInputAction
 
 public abstract class InputAction<TCommand> : IInputAction where TCommand : ICommand
 {
-    protected abstract string Module { get; }
     protected abstract string Action { get; }
 
-    public string Description => $"{Module} {Action} > {HelpString}";
+    public string Description => $"{Action} > {HelpString}";
     
     protected abstract string HelpString { get; }
 
     public bool CanHandle(string command)
     {
         var split = command.Split(" ");
-        if (Module != split[0])
-        {
-            return false;
-        }
         
-        if (Action != split[1])
+        if (Action != split[0])
         {
             return false;
         }
