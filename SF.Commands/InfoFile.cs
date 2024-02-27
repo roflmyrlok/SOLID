@@ -4,7 +4,7 @@ using SF.Domain;
 
 namespace SF.Commands
 {
-    [InputAction(new string[] {"any"})]
+    [InputAction]
     public class InfoFileInputAction : InputAction<InfoFile>
     {
         protected override string Action => "info";

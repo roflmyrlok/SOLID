@@ -5,7 +5,7 @@ using System;
 
 namespace SF.Commands
 {
-	[InputAction(new string[] {"csv"})]
+	[InputAction]
 	public class PrintCsvInputAction : InputAction<PrintCsv>
 	{
 		protected override string Action => "print";

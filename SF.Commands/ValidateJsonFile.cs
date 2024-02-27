@@ -5,7 +5,7 @@ using System;
 
 namespace SF.Commands
 {
-	[InputAction(new string[] {"json"})]
+	[InputAction]
 	public class ValidateJsonFileInputAction : InputAction<ValidateJsonFile>
 	{
 		protected override string Action => "validate";

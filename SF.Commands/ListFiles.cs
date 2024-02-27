@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace SF.Commands
 {
-	[InputAction(new string[] {"any"})]
+	[InputAction]
 	public class ListFilesInputAction : InputAction<ListFilesCommand>
 	{
 		protected override string Action => "list";

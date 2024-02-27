@@ -5,7 +5,7 @@ using System;
 
 namespace SF.Commands
 {
-	[InputAction(new string[] {"json"})]
+	[InputAction]
 	public class PrintJsonInputAction : InputAction<PrintJson>
 	{
 		protected override string Action => "print";

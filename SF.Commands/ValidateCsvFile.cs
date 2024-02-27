@@ -5,7 +5,7 @@ using System;
 
 namespace SF.Commands
 {
-	[InputAction(new string[] {"csv"})]
+	[InputAction]
 	public class ValidateCsvFileInputAction : InputAction<ValidateCsvFile>
 	{
 		protected override string Action => "validate";

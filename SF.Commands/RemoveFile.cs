@@ -4,7 +4,7 @@ using System;
 
 namespace SF.Commands
 {
-	[InputAction(new string[] {"any"})]
+	[InputAction]
 	public class RemoveFileInputAction : InputAction<RemoveFileCommand>
 	{
 		protected override string Action => "remove";

@@ -3,7 +3,7 @@ using SF.Domain;
 
 namespace SF.Commands
 {
-	[InputAction(new string[] {"any"})]
+	[InputAction]
 	public class AddFileInputAction : InputAction<AddFileCommand>
 	{
 		protected override string Action => "add";

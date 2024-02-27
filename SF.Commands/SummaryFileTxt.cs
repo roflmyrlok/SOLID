@@ -5,7 +5,7 @@ using System;
 
 namespace SF.Commands
 {
-	[InputAction(new string[] {"txt"})]
+	[InputAction]
 	public class SummaryFileInputAction : InputAction<SummaryFile>
 	{ 
 		protected override string Action => "summary";
