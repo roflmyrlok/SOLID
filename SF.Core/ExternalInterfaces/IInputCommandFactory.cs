@@ -1,4 +1,4 @@
-namespace SF.Core;
+namespace SF.Core.ExternalInterfaces;
 
 public interface IInputCommandFactory
 {

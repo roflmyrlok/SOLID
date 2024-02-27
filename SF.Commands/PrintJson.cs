@@ -5,15 +5,15 @@ using System;
 
 namespace SF.Commands
 {
-	[InputAction]
+	[InputAction(new string[] {"json"})]
 	public class PrintJsonInputAction : InputAction<PrintJson>
 	{
 		protected override string Action => "print";
 		protected override string HelpString => "print csv/json file";
 
-		private readonly SystemWrapper _systemWrapper;
+		private readonly ISystemWrapper _systemWrapper;
 
-		public PrintJsonInputAction(SystemWrapper systemWrapper)
+		public PrintJsonInputAction(ISystemWrapper systemWrapper)
 		{
 			_systemWrapper = systemWrapper;
 		}
@@ -29,9 +29,9 @@ namespace SF.Commands
 	{
 		private readonly IFileActionStrategy<string> _fileActionStrategy;
 		private readonly string _filePath;
-		private readonly SystemWrapper _systemWrapper;
+		private readonly ISystemWrapper _systemWrapper;
 
-		public PrintJson(SystemWrapper systemWrapper, string[] args)
+		public PrintJson(ISystemWrapper systemWrapper, string[] args)
 		{
 			_filePath = args[0];
 			_systemWrapper = systemWrapper;

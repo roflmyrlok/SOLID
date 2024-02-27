@@ -4,15 +4,15 @@ using System;
 
 namespace SF.Commands
 {
-	[InputAction]
+	[InputAction(new string[] {"any"})]
 	public class RemoveFileInputAction : InputAction<RemoveFileCommand>
 	{
 		protected override string Action => "remove";
 		protected override string HelpString => "remove a file";
 
-		private readonly SystemWrapper _systemWrapper;
+		private readonly ISystemWrapper _systemWrapper;
 
-		public RemoveFileInputAction(SystemWrapper systemWrapper)
+		public RemoveFileInputAction(ISystemWrapper systemWrapper)
 		{
 			_systemWrapper = systemWrapper;
 		}
@@ -31,10 +31,10 @@ namespace SF.Commands
 	[Command]
 	public class RemoveFileCommand : Command
 	{
-		private readonly SystemWrapper _systemWrapper;
+		private readonly ISystemWrapper _systemWrapper;
 		private readonly string _filePath;
 
-		public RemoveFileCommand(SystemWrapper systemWrapper, string filePath)
+		public RemoveFileCommand(ISystemWrapper systemWrapper, string filePath)
 		{
 			_systemWrapper = systemWrapper ?? throw new ArgumentNullException(nameof(systemWrapper));
 			_filePath = filePath ?? throw new ArgumentNullException(nameof(filePath));

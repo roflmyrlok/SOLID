@@ -5,15 +5,15 @@ using System;
 
 namespace SF.Commands
 {
-	[InputAction]
+	[InputAction(new string[] {"csv"})]
 	public class ValidateCsvFileInputAction : InputAction<ValidateCsvFile>
 	{
 		protected override string Action => "validate";
 		protected override string HelpString => "validate csv/json file";
 
-		private readonly SystemWrapper _systemWrapper;
+		private readonly ISystemWrapper _systemWrapper;
 
-		public ValidateCsvFileInputAction(SystemWrapper systemWrapper)
+		public ValidateCsvFileInputAction(ISystemWrapper systemWrapper)
 		{
 			_systemWrapper = systemWrapper;
 		}
@@ -29,9 +29,9 @@ namespace SF.Commands
 	{
 		private readonly IFileActionStrategy<bool> _fileActionStrategy;
 		private readonly string _filePath;
-		private readonly SystemWrapper _systemWrapper;
+		private readonly ISystemWrapper _systemWrapper;
 
-		public ValidateCsvFile(SystemWrapper systemWrapper, string[] args)
+		public ValidateCsvFile(ISystemWrapper systemWrapper, string[] args)
 		{
 			_filePath = args[0];
 			_systemWrapper = systemWrapper;
@@ -47,7 +47,7 @@ namespace SF.Commands
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine(e);
+				Console.WriteLine(e.Message);
 				return;
 			}
 		}

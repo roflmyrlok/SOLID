@@ -3,15 +3,15 @@ using SF.Domain;
 
 namespace SF.Commands
 {
-	[InputAction]
+	[InputAction(new string[] {"any"})]
 	public class AddFileInputAction : InputAction<AddFileCommand>
 	{
 		protected override string Action => "add";
 		protected override string HelpString => "add a file";
 
-		private readonly SystemWrapper _systemWrapper;
+		private readonly ISystemWrapper _systemWrapper;
 
-		public AddFileInputAction(SystemWrapper systemWrapper)
+		public AddFileInputAction(ISystemWrapper systemWrapper)
 		{
 			_systemWrapper = systemWrapper;
 		}
@@ -26,18 +26,12 @@ namespace SF.Commands
 	public class AddFileCommand : Command
 	{
 		private readonly string _filePath;
-		private readonly SystemWrapper _systemWrapper;
+		private readonly ISystemWrapper _systemWrapper;
 		private readonly string _name;
 
-		public AddFileCommand(SystemWrapper systemWrapper, string[] args)
+		public AddFileCommand(ISystemWrapper systemWrapper, string[] args)
 		{
 			_systemWrapper = systemWrapper ?? throw new ArgumentNullException(nameof(systemWrapper));
-
-			if (args == null || args.Length < 1)
-			{
-				throw new ArgumentException("File path must be provided.");
-			}
-
 			_filePath = args[0];
 			_name = args.Length > 1 ? args[1] : _filePath;
 		}

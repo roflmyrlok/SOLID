@@ -5,15 +5,15 @@ using System.Collections.Generic;
 
 namespace SF.Commands
 {
-	[InputAction]
+	[InputAction(new string[] {"any"})]
 	public class ListFilesInputAction : InputAction<ListFilesCommand>
 	{
 		protected override string Action => "list";
 		protected override string HelpString => "list all files";
 
-		private readonly SystemWrapper _systemWrapper;
+		private readonly ISystemWrapper _systemWrapper;
 
-		public ListFilesInputAction(SystemWrapper systemWrapper)
+		public ListFilesInputAction(ISystemWrapper systemWrapper)
 		{
 			_systemWrapper = systemWrapper ?? throw new ArgumentNullException(nameof(systemWrapper));
 		}
@@ -27,9 +27,9 @@ namespace SF.Commands
 	[Command]
 	public class ListFilesCommand : Command
 	{
-		private readonly SystemWrapper _systemWrapper;
+		private readonly ISystemWrapper _systemWrapper;
 
-		public ListFilesCommand(SystemWrapper systemWrapper)
+		public ListFilesCommand(ISystemWrapper systemWrapper)
 		{
 			_systemWrapper = systemWrapper ?? throw new ArgumentNullException(nameof(systemWrapper));
 		}

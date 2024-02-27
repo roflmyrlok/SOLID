@@ -1,19 +1,11 @@
 namespace SF.Core;
 
-public interface IInputAction
-{
-    bool CanHandle(string command);
-
-    ICommand GetCommand(string input);
-    
-    string Description { get; }
-}
-
 public abstract class InputAction<TCommand> : IInputAction where TCommand : ICommand
 {
+    private List<string> _supportedExtensions;
     protected abstract string Action { get; }
 
-    public string Description => $"{Action} > {HelpString}";
+    public List<string> SupportedExtensions(){ return SupportedExtensions();}
     
     protected abstract string HelpString { get; }
 
@@ -31,14 +23,11 @@ public abstract class InputAction<TCommand> : IInputAction where TCommand : ICom
 
     public ICommand GetCommand(string input)
     {
-        return GetCommandInternal(input.Split(" ")[2..]);
+        return GetCommandInternal(input.Split(" ")[1..]);
     }
+
+    List<string> IInputAction.SupportedExtensions => _supportedExtensions;
 
     protected abstract TCommand GetCommandInternal(string[] args);
 
-}
-
-public class InputActionAttribute : Attribute
-{
-    
 }

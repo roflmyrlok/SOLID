@@ -45,7 +45,7 @@ public class DiContainer : IDiContainer
     {
         if (!types.ContainsKey(interfaceType))
         {
-            throw new Exception("pudge ss type not registred");
+            throw new Exception("required type not registered");
         }
         var binding = types[interfaceType];
         if (binding.ImplementationObject != null)

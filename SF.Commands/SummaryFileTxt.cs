@@ -5,15 +5,15 @@ using System;
 
 namespace SF.Commands
 {
-	[InputAction]
+	[InputAction(new string[] {"txt"})]
 	public class SummaryFileInputAction : InputAction<SummaryFile>
 	{ 
 		protected override string Action => "summary";
 		protected override string HelpString => "print summary for txt file";
 
-		private readonly SystemWrapper _systemWrapper;
+		private readonly ISystemWrapper _systemWrapper;
 
-		public SummaryFileInputAction(SystemWrapper systemWrapper)
+		public SummaryFileInputAction(ISystemWrapper systemWrapper)
 		{
 			_systemWrapper = systemWrapper;
 		}
@@ -29,9 +29,9 @@ namespace SF.Commands
 	{
 		private readonly IFileActionStrategy<List<string>> _fileActionStrategy;
 		private readonly string _filePath;
-		private readonly SystemWrapper _systemWrapper;
-
-		public SummaryFile(SystemWrapper systemWrapper, string[] args)
+		private readonly ISystemWrapper _systemWrapper;
+		
+		public SummaryFile(ISystemWrapper systemWrapper, string[] args)
 		{
 			_filePath = args[0];
 			_systemWrapper = systemWrapper;
@@ -58,7 +58,7 @@ namespace SF.Commands
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine(e);
+				Console.WriteLine(e.Message);
 				return;
 			}
 		}

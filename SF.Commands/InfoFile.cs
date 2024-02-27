@@ -4,15 +4,15 @@ using SF.Domain;
 
 namespace SF.Commands
 {
-    [InputAction]
+    [InputAction(new string[] {"any"})]
     public class InfoFileInputAction : InputAction<InfoFile>
     {
-        protected override string Action => "InfoFile";
+        protected override string Action => "info";
         protected override string HelpString => "InfoFile of a file";
 
-        private readonly SystemWrapper _systemWrapper;
+        private readonly ISystemWrapper _systemWrapper;
 
-        public InfoFileInputAction(SystemWrapper systemWrapper)
+        public InfoFileInputAction(ISystemWrapper systemWrapper)
         {
             _systemWrapper = systemWrapper;
         }
@@ -26,10 +26,10 @@ namespace SF.Commands
     [Command]
     public class InfoFile : Command
     {
-        private readonly SystemWrapper _systemWrapper;
+        private readonly ISystemWrapper _systemWrapper;
         private readonly string _filePath;
 
-        public InfoFile(SystemWrapper systemWrapper, string[] args)
+        public InfoFile(ISystemWrapper systemWrapper, string[] args)
         {
             _systemWrapper = systemWrapper ?? throw new ArgumentNullException(nameof(systemWrapper));
 

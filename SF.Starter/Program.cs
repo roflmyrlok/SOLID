@@ -6,12 +6,13 @@ using SF.Starter;
 
 var diContainer = new DiContainer();
 
-diContainer.Register<ISystemWrapper, SystemWrapper>(Scope.Singleton);
+
 diContainer.Register<IFileActionStrategy<string>, CsvTableFileActionStrategy>(Scope.Transient);
 diContainer.Register<IFileActionStrategy<string>, JsonTableFileActionStrategy>(Scope.Transient);
 diContainer.Register<IFileActionStrategy<List<string>>, SummaryFileActionStrategy>(Scope.Transient);
 diContainer.Register<IFileActionStrategy<bool>, JsonValidationFileActionStrategy>(Scope.Transient);
 diContainer.Register<IFileActionStrategy<bool>, CsvValidationFileActionStrategy>(Scope.Transient);
+diContainer.Register<ISystemWrapper, SystemWrapper>(Scope.Singleton);
 
 
 var factory = new InputActionsFactory(diContainer);
@@ -36,6 +37,7 @@ bool TryHandle(string input)
             return true;
         }
     }
+    
 
     return false;
 }
