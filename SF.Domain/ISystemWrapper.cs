@@ -4,6 +4,8 @@ namespace SF.Domain;
 
 public interface ISystemWrapper
 {
+	void SetUp(Dictionary<string, List<string>>  actionSupportedFileTypes);
+	List<string> GetSupportedCommands(string type);
 	void Add(string filePath, string fileName);
 	void Remove(string fileName);
 	List<string> GetAllFiles();

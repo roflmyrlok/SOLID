@@ -10,6 +10,8 @@ namespace SF.Commands
 	{ 
 		protected override string Action => "summary";
 		protected override string HelpString => "print summary for txt file";
+		
+		protected override string[] SupportedExtensions => [".txt"];
 
 		private readonly ISystemWrapper _systemWrapper;
 

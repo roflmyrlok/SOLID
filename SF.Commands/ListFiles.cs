@@ -10,6 +10,8 @@ namespace SF.Commands
 	{
 		protected override string Action => "list";
 		protected override string HelpString => "list all files";
+		
+		protected override string[] SupportedExtensions => ["any"];
 
 		private readonly ISystemWrapper _systemWrapper;
 

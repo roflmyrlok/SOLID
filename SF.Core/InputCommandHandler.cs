@@ -2,12 +2,10 @@ namespace SF.Core;
 
 public abstract class InputAction<TCommand> : IInputAction where TCommand : ICommand
 {
-    private List<string> _supportedExtensions;
     protected abstract string Action { get; }
-
-    public List<string> SupportedExtensions(){ return SupportedExtensions();}
+    protected abstract string[] SupportedExtensions { get; }
     
-    protected abstract string HelpString { get; }
+    protected abstract string HelpString {get;}
 
     public bool CanHandle(string command)
     {
@@ -26,7 +24,15 @@ public abstract class InputAction<TCommand> : IInputAction where TCommand : ICom
         return GetCommandInternal(input.Split(" ")[1..]);
     }
 
-    List<string> IInputAction.SupportedExtensions => _supportedExtensions;
+    public string[] GetSupportedExtension()
+    {
+        return SupportedExtensions;
+    }
+    
+    public string GetAction()
+    {
+        return Action;
+    }
 
     protected abstract TCommand GetCommandInternal(string[] args);
 

@@ -10,6 +10,8 @@ namespace SF.Commands
 	{
 		protected override string Action => "validate";
 		protected override string HelpString => "validate csv/json file";
+		
+		protected override string[] SupportedExtensions => [".csv"];
 
 		private readonly ISystemWrapper _systemWrapper;
 

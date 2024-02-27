@@ -1,12 +1,21 @@
 using SF.Domain.Actions;
-using Exception = System.Exception;
 
 namespace SF.Domain;
 
 public class SystemWrapper : ISystemWrapper
 {
 	private FileSystem _fileSystem = new FileSystem();
-	
+	private Dictionary<string,List<string>> _typeSupportedActions = new Dictionary<string, List<string>> ();
+
+	public void  SetUp(Dictionary<string, List<string>>  typeSupportedActions)
+	{
+		_typeSupportedActions = typeSupportedActions;
+	}
+
+	public List<string> GetSupportedCommands(string type)
+	{
+		return _typeSupportedActions[type];
+	}
 	public void Add(string filePath, string fileName)
 	{
 		if (!_fileSystem.ExistByPath(filePath))

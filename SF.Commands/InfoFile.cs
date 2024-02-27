@@ -8,7 +8,9 @@ namespace SF.Commands
     public class InfoFileInputAction : InputAction<InfoFile>
     {
         protected override string Action => "info";
-        protected override string HelpString => "InfoFile of a file";
+        protected override string HelpString => "Infoof a file";
+        
+        protected override string[] SupportedExtensions => ["any"];
 
         private readonly ISystemWrapper _systemWrapper;
 
@@ -28,7 +30,7 @@ namespace SF.Commands
     {
         private readonly ISystemWrapper _systemWrapper;
         private readonly string _filePath;
-
+    
         public InfoFile(ISystemWrapper systemWrapper, string[] args)
         {
             _systemWrapper = systemWrapper ?? throw new ArgumentNullException(nameof(systemWrapper));
@@ -50,6 +52,13 @@ namespace SF.Commands
             {
                 fullPath = _systemWrapper.GetFileFullPath(_filePath);
                 fileSize = _systemWrapper.GetFileSizeInBytes(_filePath);
+                var fileExstention = _systemWrapper.GetFileExtension(_filePath);
+                var supportedCommands = _systemWrapper.GetSupportedCommands(fileExstention);
+                answerList.Add("Supported Commands: + \n");
+                foreach (var command in supportedCommands)
+                {
+                    answerList.Add(command + "\n");
+                }
             }
             catch (Exception e)
             {

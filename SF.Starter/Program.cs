@@ -1,4 +1,5 @@
 ﻿using DI.Core;
+using SF.Core.ExternalInterfaces;
 using SF.Domain;
 using SF.Domain.Actions;
 using SF.Starter;
@@ -17,9 +18,11 @@ diContainer.Register<ISystemWrapper, SystemWrapper>(Scope.Singleton);
 
 var factory = new InputActionsFactory(diContainer);
 var actions = factory.GetAllActions();
+factory.SetUp();
 while (true)
 {
     var input = Console.ReadLine().ToLower();
+    
     if (!TryHandle(input))
     {
         Console.WriteLine($"Unknown command '{input}', please try again");

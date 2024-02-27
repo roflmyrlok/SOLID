@@ -3,7 +3,9 @@ public interface IInputAction
 {
 	bool CanHandle(string command);
 
+	string GetAction();
+
 	ICommand GetCommand(string input);
-    
-	List<string> SupportedExtensions { get; }
+
+	string[] GetSupportedExtension();
 }

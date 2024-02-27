@@ -9,6 +9,8 @@ namespace SF.Commands
 	{
 		protected override string Action => "remove";
 		protected override string HelpString => "remove a file";
+		
+		protected override string[] SupportedExtensions => ["any"];
 
 		private readonly ISystemWrapper _systemWrapper;
 

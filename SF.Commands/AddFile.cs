@@ -8,6 +8,7 @@ namespace SF.Commands
 	{
 		protected override string Action => "add";
 		protected override string HelpString => "add a file";
+		protected override string[] SupportedExtensions => ["any"];
 
 		private readonly ISystemWrapper _systemWrapper;
 

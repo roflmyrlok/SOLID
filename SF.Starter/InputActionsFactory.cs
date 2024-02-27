@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using DI.Core;
 using SF.Commands;
 using SF.Core;
@@ -33,9 +34,8 @@ namespace SF.Starter
 			{
 				result.Add(diContainer.Instantiate<IInputAction>(type));
 			}
+			ISystemWrapper systemWrapper = diContainer.Resolve<ISystemWrapper>();
 			return result;
-			
-			
 		}
 
 		private IEnumerable<Assembly> GetAllAssemblies()
@@ -45,5 +45,41 @@ namespace SF.Starter
 				yield return Assembly.LoadFrom(file);
 			}
 		}
+		public void SetUp()
+		{
+			var actions = GetAllActions();
+			var actionsByType = new Dictionary<string, List<string>>();
+			var anyCommands = new List<string>();
+			foreach (var action in actions)
+			{
+				var name = action.GetAction();
+				var types = action.GetSupportedExtension();
+				if (types[0] == "any")
+				{
+					anyCommands.Add(name);
+					continue;
+				}
+				foreach (var type in types)
+				{
+					if (!actionsByType.ContainsKey(type))
+					{
+						actionsByType.Add(type, new List<string>());
+					}
+					actionsByType[type].Add(name);
+				}
+			}
+
+			foreach (var type in actionsByType)
+			{
+				foreach (var command in anyCommands)
+				{
+					type.Value.Add(command);
+				}
+			}
+
+			var tmp = diContainer.Resolve<ISystemWrapper>();
+			tmp.SetUp(actionsByType);
+		}
 	}
+	
 }

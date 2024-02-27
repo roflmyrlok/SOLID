@@ -10,6 +10,8 @@ namespace SF.Commands
 	{
 		protected override string Action => "print";
 		protected override string HelpString => "print csv/json file";
+		
+		protected override string[] SupportedExtensions => [".json"];
 
 		private readonly ISystemWrapper _systemWrapper;
 
