@@ -1,8 +1,7 @@
-3 test files with txt, csv and json data present, put in working directory //tmp solution
+3 test files with txt, csv and json data present. Solution_folder/test_data is used as a default directory for files
 ```random.txt```
 ```random.csv```
 ```random.json```
-located in Starter/test_data
 
 Commands Implemented: 
 
