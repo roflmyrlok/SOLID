@@ -15,6 +15,50 @@
           "Name": "j"
         }
       ]
+    },
+    "iampudge": {
+      "files": [
+        {
+          "FilePath": "/Users/atrybushnyi/workspace/SOLID/SF.Starter/bin/Debug/net8.0/../../../../test_data/random.csv",
+          "Name": "c"
+        },
+        {
+          "FilePath": "/Users/atrybushnyi/workspace/SOLID/SF.Starter/bin/Debug/net8.0/../../../../test_data/random.txt",
+          "Name": "t"
+        },
+        {
+          "FilePath": "/Users/atrybushnyi/workspace/SOLID/SF.Starter/bin/Debug/net8.0/../../../../test_data/random.txt",
+          "Name": "t"
+        },
+        {
+          "FilePath": "/Users/atrybushnyi/workspace/SOLID/SF.Starter/bin/Debug/net8.0/../../../../test_data/random.txt",
+          "Name": "n"
+        },
+        {
+          "FilePath": "/Users/atrybushnyi/workspace/SOLID/SF.Starter/bin/Debug/net8.0/../../../../test_data/random.txt",
+          "Name": ""
+        },
+        {
+          "FilePath": "/Users/atrybushnyi/workspace/SOLID/SF.Starter/bin/Debug/net8.0/../../../../test_data/random.txt",
+          "Name": ""
+        },
+        {
+          "FilePath": "/Users/atrybushnyi/workspace/SOLID/SF.Starter/bin/Debug/net8.0/../../../../test_data/random.txt",
+          "Name": ""
+        },
+        {
+          "FilePath": "/Users/atrybushnyi/workspace/SOLID/SF.Starter/bin/Debug/net8.0/../../../../test_data/random.txt",
+          "Name": ""
+        },
+        {
+          "FilePath": "/Users/atrybushnyi/workspace/SOLID/SF.Starter/bin/Debug/net8.0/../../../../test_data/random.txt",
+          "Name": ""
+        },
+        {
+          "FilePath": "/Users/atrybushnyi/workspace/SOLID/SF.Starter/bin/Debug/net8.0/../../../../test_data/random.txt",
+          "Name": ""
+        }
+      ]
     }
   },
   "_typeSupportedActions": {
@@ -61,10 +105,57 @@
             "SizeInBytes": 0
           }
         ]
+      },
+      "iampudge": {
+        "AccountName": "iampudge",
+        "Plan": 1,
+        "Files": [
+          {
+            "FilePath": "c",
+            "SizeInBytes": 0
+          },
+          {
+            "FilePath": "t",
+            "SizeInBytes": 0
+          },
+          {
+            "FilePath": "t",
+            "SizeInBytes": 0
+          },
+          {
+            "FilePath": "n",
+            "SizeInBytes": 0
+          },
+          {
+            "FilePath": "",
+            "SizeInBytes": 0
+          },
+          {
+            "FilePath": "",
+            "SizeInBytes": 0
+          },
+          {
+            "FilePath": "",
+            "SizeInBytes": 0
+          },
+          {
+            "FilePath": "",
+            "SizeInBytes": 0
+          },
+          {
+            "FilePath": "",
+            "SizeInBytes": 0
+          },
+          {
+            "FilePath": "",
+            "SizeInBytes": 0
+          }
+        ]
       }
     },
     "_accountsPasswords": {
-      "impudge": ""
+      "impudge": "",
+      "iampudge": ""
     }
   }
 }

@@ -28,6 +28,10 @@ var inputActionsFactory = new InputActionsFactory(diContainer);
 var actions = inputActionsFactory.GetAllActions();
 inputActionsFactory.SetUp();
 
+var eventLoggerSetUp = diContainer.Resolve<ISystemWrapper>();
+var eventLogger = new EventCollector();
+eventLoggerSetUp.SetUpEventCollector(eventLogger);
+
 var saver = diContainer.Resolve<ISystemWrapper>();
 saver.Restore(defaultSaveFilePath);
 

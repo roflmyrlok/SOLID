@@ -1,0 +1,177 @@
+{
+  "event_name": "user_logged_in",
+  "timestamp": "2024-02-28T17:21:39.04246+02:00",
+  "parameters": {
+    "user_name": [
+      "iampudge"
+    ]
+  }
+}
+{
+  "event_name": "user_logged_in",
+  "timestamp": "2024-02-28T17:21:39.070669+02:00",
+  "parameters": {
+    "user_name": [
+      "iampudge"
+    ]
+  }
+}
+{
+  "event_name": "user_logged_in",
+  "timestamp": "2024-02-28T17:22:00.736929+02:00",
+  "parameters": {
+    "user_name": [
+      "iampudge"
+    ]
+  }
+}
+{
+  "event_name": "user_logged_in",
+  "timestamp": "2024-02-28T17:22:00.784063+02:00",
+  "parameters": {
+    "user_name": [
+      "iampudge"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-28T17:22:28.964353+02:00",
+  "parameters": {
+    "shortcut": [
+      "t"
+    ],
+    "filetype": [
+      ".txt"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-28T17:22:40.12057+02:00",
+  "parameters": {
+    "shortcut": [
+      "n"
+    ],
+    "filetype": [
+      ".txt"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-28T17:22:40.495135+02:00",
+  "parameters": {
+    "shortcut": [
+      ""
+    ],
+    "filetype": [
+      ".txt"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-28T17:22:43.946399+02:00",
+  "parameters": {
+    "shortcut": [
+      ""
+    ],
+    "filetype": [
+      ".txt"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-28T17:22:44.511678+02:00",
+  "parameters": {
+    "shortcut": [
+      ""
+    ],
+    "filetype": [
+      ".txt"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-28T17:22:45.300882+02:00",
+  "parameters": {
+    "shortcut": [
+      ""
+    ],
+    "filetype": [
+      ".txt"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-28T17:22:45.484782+02:00",
+  "parameters": {
+    "shortcut": [
+      ""
+    ],
+    "filetype": [
+      ".txt"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-28T17:22:45.684142+02:00",
+  "parameters": {
+    "shortcut": [
+      ""
+    ],
+    "filetype": [
+      ".txt"
+    ]
+  }
+}
+{
+  "event_name": "limit_reached",
+  "timestamp": "2024-02-28T17:22:45.875633+02:00",
+  "parameters": {
+    "limit_type": [
+      "files_amount"
+    ]
+  }
+}
+{
+  "event_name": "limit_reached",
+  "timestamp": "2024-02-28T17:22:46.055901+02:00",
+  "parameters": {
+    "limit_type": [
+      "files_amount"
+    ]
+  }
+}
+{
+  "event_name": "limit_reached",
+  "timestamp": "2024-02-28T17:22:46.744151+02:00",
+  "parameters": {
+    "limit_type": [
+      "files_amount"
+    ]
+  }
+}
+{
+  "event_name": "limit_reached",
+  "timestamp": "2024-02-28T17:22:46.943499+02:00",
+  "parameters": {
+    "limit_type": [
+      "files_amount"
+    ]
+  }
+}
+{
+  "event_name": "limit_reached",
+  "timestamp": "2024-02-28T17:22:47.128286+02:00",
+  "parameters": {
+    "limit_type": [
+      "files_amount"
+    ]
+  }
+}

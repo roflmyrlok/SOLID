@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Newtonsoft.Json;
 
 namespace SF.Domain
@@ -5,13 +6,14 @@ namespace SF.Domain
 	public class SystemWrapper : ISystemWrapper
 	{
 		[JsonProperty]
-		protected Dictionary<string, FileSystem> _userFileSystem = new Dictionary<string, FileSystem>();
+		private Dictionary<string, FileSystem> _userFileSystem = new Dictionary<string, FileSystem>();
 		[JsonProperty]
 		private Dictionary<string, List<string>> _typeSupportedActions = new Dictionary<string, List<string>>();
 		[JsonProperty]
 		private AccountStorage _accountStorage = new AccountStorage();
 		private string _currentAccount;
 		private FileSystem _currentFileSystem;
+		private IEventCollector _eventCollector;
 
 		public void Restore(string filePath)
 		{
@@ -34,18 +36,21 @@ namespace SF.Domain
 		{
 			string json = JsonConvert.SerializeObject(this, Formatting.Indented);
 			File.WriteAllText(filePath, json);
-			Console.WriteLine("System saved");
+			//Console.WriteLine("System saved");
 		}
-        
-		//public interface granted methods
-		
-		public void SetUp(Dictionary<string, List<string>> typeSupportedActions)
+		public void SetUpActionStrategies(Dictionary<string, List<string>> typeSupportedActions)
 		{
 			_typeSupportedActions = typeSupportedActions;
 		}
+		public void SetUpEventCollector( IEventCollector eventCollector)
+		{
+			this._eventCollector = eventCollector;
+		}
+		//public interface granted methods
 		//account related commands
 		public bool Login(string accountName)
 		{
+			_eventCollector.CollectEvent("user_logged_in", DateTime.Now, new Dictionary<string, List<string>> { { "user_name", new List<string> { accountName } } });
 			return Login(accountName, password: "");
 		}
 		public bool Login(string accountName, string password)
@@ -54,6 +59,7 @@ namespace SF.Domain
 			{
 				throw new Exception("Account name must be at least 5 symbols");
 			}
+			_eventCollector.CollectEvent("user_logged_in", DateTime.Now, new Dictionary<string, List<string>> { { "user_name", new List<string> { accountName } } });
 			//old user
 			if (_accountStorage.AccountExist(accountName))
 			{
@@ -112,6 +118,11 @@ namespace SF.Domain
 				default: throw new Exception("Plan is not available");
 			}
 			_accountStorage.ChangePlan(_currentAccount, newPlan);
+			_eventCollector.CollectEvent("plan_changed", DateTime.Now, new Dictionary<string, List<string>>
+			{
+				{ "user_name", new List<string> { _currentAccount } },
+				{ "plan_name", new List<string> { newPlan.ToString() } }
+			});
 		}
 		//files related commands
 		public List<string> GetSupportedCommands(string type)
@@ -132,6 +143,13 @@ namespace SF.Domain
 			IsAllowedUserFile(fileSize);
 			_accountStorage.AddFile(_currentAccount, fileName, fileSize);
 			_currentFileSystem.Add(filePath, fileName);
+			_eventCollector.CollectEvent("file_added", DateTime.Now, new Dictionary<string, List<string>>
+			{
+				{ "shortcut", new List<string> { fileName } },
+				{ "filetype", new List<string> { GetFileExtension(fileName) } }
+			});
+
+
             
 		}
 
@@ -148,6 +166,12 @@ namespace SF.Domain
 			}
 			_accountStorage.RemoveFile(_currentAccount, fileName);
 			_currentFileSystem.Remove(fileName);
+			_eventCollector.CollectEvent("file_removed", DateTime.Now, new Dictionary<string, List<string>>
+			{
+				{ "shortcut", new List<string> { fileName } },
+				{ "filetype", new List<string> { GetFileExtension(fileName) } }
+			});
+			
 		}
 
 		public List<string> GetAllFiles()
@@ -219,6 +243,12 @@ namespace SF.Domain
 			{
 				throw new Exception($"No file with name {fileName}");
 			}
+			_eventCollector.CollectEvent("file_action_invoked", DateTime.Now, new Dictionary<string, List<string>>
+			{
+				{ "shortcut", new List<string> { fileName } },
+				{ "action", new List<string> { GetFileExtension(strategy.ToString()) } }
+			});
+
 			return _currentFileSystem.Execute(fileName, strategy);
 		}
 
@@ -238,10 +268,19 @@ namespace SF.Domain
 			var allowedNumber = _accountStorage.GetAllowedNumber(_currentAccount);
 			if (allowedNumber <= 0)
 			{
-				throw new Exception("You have reached filesnumber limit");
+				_eventCollector.CollectEvent("limit_reached", DateTime.Now, new Dictionary<string, List<string>>
+				{
+					{ "limit_type", new List<string> { "files_amount" } }
+				});
+
+				throw new Exception("You have reached files number limit");
 			}
 			if (allowedSize <= fileSize)
 			{
+				_eventCollector.CollectEvent("limit_reached", DateTime.Now, new Dictionary<string, List<string>>
+				{
+					{ "limit_type", new List<string> { "storage" } }
+				});
 				throw new Exception("You have reached files size limit");
 			}
 			return true;

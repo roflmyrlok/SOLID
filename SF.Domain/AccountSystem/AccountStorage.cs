@@ -37,6 +37,7 @@ namespace SF.Domain
             Console.WriteLine("pls bug report this");
             //if user has file will return true. under normal circumstances will always be true as current logic grants
             //user all files added to the system, and system bound to user
+            //bug may appear due to incorrect save 
             return result;
         }
 

@@ -3,7 +3,8 @@ namespace SF.Domain;
 public interface ISystemWrapper
 {
 	//setup and restore methods
-	void SetUp(Dictionary<string, List<string>>  actionSupportedFileTypes);
+	public void SetUpActionStrategies(Dictionary<string, List<string>> typeSupportedActions);
+	public void SetUpEventCollector(IEventCollector eventCollector);
 	void Restore(string filePath);
 	void Save(string filePath);
 	

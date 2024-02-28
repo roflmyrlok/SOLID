@@ -72,7 +72,7 @@ namespace SF.Starter
 			}
 
 			var tmp = _diContainer.Resolve<ISystemWrapper>();
-			tmp.SetUp(actionsByType);
+			tmp.SetUpActionStrategies(actionsByType);
 		}
 	}
 	
