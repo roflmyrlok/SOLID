@@ -6,7 +6,7 @@ located in Starter/test_data
 
 Commands Implemented: 
 
-```login <account name>```
+```login <account_name>```
 if no account with such name registred new account will be added
 if there is such account it will be chosen as current account
 all file shortcuts are account bound
