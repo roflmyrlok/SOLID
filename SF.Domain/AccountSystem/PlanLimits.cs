@@ -1,6 +1,6 @@
 namespace SF.Domain
 {
-	internal class PlanLimits
+	public class PlanLimits
 	{
 		public long MaxFileSizeBytes { get; set; }
 		public int MaxFiles { get; set; }

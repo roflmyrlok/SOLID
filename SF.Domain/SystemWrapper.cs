@@ -1,15 +1,44 @@
+using Newtonsoft.Json;
+
 namespace SF.Domain
 {
 	public class SystemWrapper : ISystemWrapper
 	{
-		private Dictionary<string, FileSystem> _userFileSystem = new Dictionary<string, FileSystem>();
+		[JsonProperty]
+		protected Dictionary<string, FileSystem> _userFileSystem = new Dictionary<string, FileSystem>();
+		[JsonProperty]
 		private Dictionary<string, List<string>> _typeSupportedActions = new Dictionary<string, List<string>>();
+		[JsonProperty]
 		private AccountStorage _accountStorage = new AccountStorage();
 		private string _currentAccount;
 		private FileSystem _currentFileSystem;
-        
+
+		public void Restore(string filePath)
+		{
+			if (!File.Exists(filePath))
+			{
+				return;
+			}
+			string json = File.ReadAllText(filePath);
+			SystemWrapper restoredSystemWrapper = JsonConvert.DeserializeObject<SystemWrapper>(json);
+
+			
+			_userFileSystem = restoredSystemWrapper._userFileSystem;
+			_typeSupportedActions = restoredSystemWrapper._typeSupportedActions;
+			_accountStorage = restoredSystemWrapper._accountStorage;
+			_currentAccount = restoredSystemWrapper._currentAccount;
+			_currentFileSystem = restoredSystemWrapper._currentFileSystem;
+		}
+
+		public void Save(string filePath)
+		{
+			string json = JsonConvert.SerializeObject(this, Formatting.Indented);
+			File.WriteAllText(filePath, json);
+			Console.WriteLine("System saved");
+		}
         
 		//public interface granted methods
+		
 		public void SetUp(Dictionary<string, List<string>> typeSupportedActions)
 		{
 			_typeSupportedActions = typeSupportedActions;

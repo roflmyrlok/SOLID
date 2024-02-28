@@ -2,7 +2,12 @@ namespace SF.Domain;
 
 public interface ISystemWrapper
 {
+	//setup and restore methods
 	void SetUp(Dictionary<string, List<string>>  actionSupportedFileTypes);
+	void Restore(string filePath);
+	void Save(string filePath);
+	
+	// for files related commands
 	List<string> GetSupportedCommands(string type);
 	void Add(string filePath, string fileName);
 	void Remove(string fileName);
@@ -12,7 +17,7 @@ public interface ISystemWrapper
 	string GetFileExtension(string fileName);
 	T Execute<T>(string fileName, IFileActionStrategy<T> strategy);
 	 
-	//account related commands to be moved in separate interface?
+	// for account related commands to be moved in separate interface?
 	bool Login(string accountName, string password);
 	bool Login(string accountName);
 	bool IsAllowedToChangePlan(string planName);

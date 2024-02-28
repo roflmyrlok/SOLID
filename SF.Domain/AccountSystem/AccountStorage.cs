@@ -2,14 +2,15 @@ namespace SF.Domain
 {
     public class AccountStorage
     {
-        private static readonly Dictionary<Plan, PlanLimits> _planLimitsDictionary = new Dictionary<Plan, PlanLimits>()
+        public static readonly Dictionary<Plan, PlanLimits> _planLimitsDictionary = new Dictionary<Plan, PlanLimits>()
         {
             { Plan.Basic, new PlanLimits(100 * 1024 * 1024, 10) },
             { Plan.Gold, new PlanLimits(1024 * 1024 * 1024, 100) }
         };
 
-        private readonly Dictionary<string, User> _users = new Dictionary<string, User>();
-        private readonly Dictionary<string, string> _accountsPasswords = new Dictionary<string, string>();
+        
+        public readonly Dictionary<string, User> _users = new Dictionary<string, User>();
+        public readonly Dictionary<string, string> _accountsPasswords = new Dictionary<string, string>();
 
         public bool Login(string accountName, string password)
         {

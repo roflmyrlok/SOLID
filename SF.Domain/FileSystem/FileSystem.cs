@@ -2,7 +2,7 @@ namespace SF.Domain
 {
     public class FileSystem
     {
-        private readonly List<FileDescriptor> files = new List<FileDescriptor>();
+        public readonly List<FileDescriptor> files = new List<FileDescriptor>();
         private string _dataDirectoryPath =
             Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "test_data");
         
