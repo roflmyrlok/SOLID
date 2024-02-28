@@ -1,8 +1,10 @@
 using System;
 using System.IO;
+using SF.Domain.ExternalInterfaces;
 
 namespace SF.Domain.Actions
 {
+	[ActionStrategie]
 	public class CsvValidationFileActionStrategy : IFileActionStrategy<bool>
 	{
 		public bool Execute(string filePath)

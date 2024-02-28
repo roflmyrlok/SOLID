@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using SF.Domain.ExternalInterfaces;
 
 namespace SF.Domain.Actions
 {
+	
+	[ActionStrategie]
 	public class SummaryFileActionStrategy : IFileActionStrategy<List<string>>
 	{
 		public List<string> Execute(string filePath)

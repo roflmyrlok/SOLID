@@ -2,9 +2,12 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
+using SF.Domain.ExternalInterfaces;
 
 namespace SF.Domain.Actions
 {
+	
+	[ActionStrategie]
 	public class JsonValidationFileActionStrategy : IFileActionStrategy<bool>
 	{
 		public bool Execute(string filePath)

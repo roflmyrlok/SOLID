@@ -1,9 +1,11 @@
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using SF.Domain.ExternalInterfaces;
 
 namespace SF.Domain.Actions
 {
+	[ActionStrategie]
 	public class JsonTableFileActionStrategy : IFileActionStrategy<string>
 	{
 		public string Execute(string filePath)

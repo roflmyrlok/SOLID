@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using SF.Domain.ExternalInterfaces;
 
 namespace SF.Domain.Actions
 {
+	[ActionStrategie]
 	public class CsvTableFileActionStrategy : IFileActionStrategy<string>
 	{
 		public string Execute(string filePath)

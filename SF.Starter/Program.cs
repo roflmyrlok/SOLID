@@ -1,21 +1,14 @@
 ﻿using DI.Core;
-using SF.Core.ExternalInterfaces;
 using SF.Domain;
-using SF.Domain.Actions;
 using SF.Starter;
 
 
 var diContainer = new DiContainer();
 
-
-diContainer.Register<IFileActionStrategy<string>, CsvTableFileActionStrategy>(Scope.Transient);
-diContainer.Register<IFileActionStrategy<string>, JsonTableFileActionStrategy>(Scope.Transient);
-diContainer.Register<IFileActionStrategy<List<string>>, SummaryFileActionStrategy>(Scope.Transient);
-diContainer.Register<IFileActionStrategy<bool>, JsonValidationFileActionStrategy>(Scope.Transient);
-diContainer.Register<IFileActionStrategy<bool>, CsvValidationFileActionStrategy>(Scope.Transient);
 diContainer.Register<ISystemWrapper, SystemWrapper>(Scope.Singleton);
 
-
+var factory2 = new ActionStrategyFactory(diContainer);
+factory2.GetAllStrategies();
 var factory = new InputActionsFactory(diContainer);
 var actions = factory.GetAllActions();
 factory.SetUp();
