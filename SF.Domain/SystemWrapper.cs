@@ -8,6 +8,7 @@ namespace SF.Domain
         private string _currentAccount;
         private FileSystem _currentfileSystem;
         
+        
         //public interface granted methods
         public void SetUp(Dictionary<string, List<string>> typeSupportedActions)
         {

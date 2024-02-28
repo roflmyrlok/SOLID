@@ -3,9 +3,12 @@ namespace SF.Domain
     public class FileSystem
     {
         private readonly List<FileDescriptor> files = new List<FileDescriptor>();
-
+        private string _dataDirectoryPath =
+            Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "test_data");
+        
         public void Add(string filePath, string name)
         {
+            filePath = GetFileConfiguredPath(filePath);
             var fileDescriptor = new FileDescriptor(name, filePath);
             files.Add(fileDescriptor);
         }
@@ -22,13 +25,13 @@ namespace SF.Domain
 
         public string GetFileFullPath(string name)
         {
-            FileInfo fileInfo = new FileInfo(GetFilePath(name));
+            FileInfo fileInfo = new FileInfo(GetFilePathByName(name));
             return fileInfo.FullName;
         }
 
         public long GetFileSizeInBytes(string name)
         {
-            var filePath = GetFilePath(name);
+            var filePath = GetFilePathByName(name);
             FileInfo fileInfo = new FileInfo(filePath);
             if (fileInfo.Exists)
             {
@@ -51,8 +54,7 @@ namespace SF.Domain
 
         public string GetFileExtension(string name)
         {
-            
-            var filePath = GetFilePath(name);
+            var filePath = GetFilePathByName(name);
             return Path.GetExtension(filePath);
         }
 
@@ -72,6 +74,7 @@ namespace SF.Domain
         
         public bool ExistByPath(string filePath)
         {
+            filePath = GetFileConfiguredPath(filePath);
             if (File.Exists(filePath))
             {
                 return true;
@@ -81,10 +84,10 @@ namespace SF.Domain
 
         public T Execute<T>(string name, IFileActionStrategy<T> strategy)
         {
-            return strategy.Execute(GetFilePath(name));
+            return strategy.Execute(GetFilePathByName(name));
         }
 
-        private string GetFilePath(string name)
+        private string GetFilePathByName(string name)
         {
             var file = files.FirstOrDefault(e => e.Name == name);
             if (file == null)
@@ -92,6 +95,11 @@ namespace SF.Domain
                 throw new FileNotFoundException($"File '{name}' not found.");
             }
             return file.FilePath;
+        }
+        
+        private string GetFileConfiguredPath(string fileName)
+        {
+            return Path.Combine(_dataDirectoryPath, fileName);
         }
     }
 }

@@ -2,6 +2,14 @@
 using SF.Domain;
 using SF.Starter;
 
+// currently all files will be searched in this directory:
+/*
+ 
+ 
+Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "test_data");
+
+
+ */
 
 var diContainer = new DiContainer();
 diContainer.Register<ISystemWrapper, SystemWrapper>(Scope.Singleton);
