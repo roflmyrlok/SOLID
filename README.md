@@ -9,6 +9,11 @@ Commands Implemented:
 if no account with such name registred new account will be added
 if there is such account it will be chosen as current account
 all file shortcuts are account bound
+by default all users have basic plan
+
+```change_plan <plan_name>```
+avaliable plans: Gold (100 files, 1G of files allowed), Basic (10 files, 100mb of files allowed)
+user is not allowed to downgrade plan if he exceeds desiered plan limits
 
 ```add <path_to_file> <shortcut>```
 adding a file to system with a name specified as "shortcut". If no shortcut is provided, use full filename (including a path) as a name;
