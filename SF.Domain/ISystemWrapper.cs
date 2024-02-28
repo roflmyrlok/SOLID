@@ -10,5 +10,7 @@ public interface ISystemWrapper
 	long GetFileSizeInBytes(string fileName);
 	string GetFileFullPath(string fileName);
 	string GetFileExtension(string fileName);
-	public T Execute<T>(string fileName, IFileActionStrategy<T> strategy);
+	 T Execute<T>(string fileName, IFileActionStrategy<T> strategy);
+	 bool Login(string accountName, string password);
+	 bool Login(string accountName);
 }
