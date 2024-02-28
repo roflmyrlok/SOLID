@@ -48,7 +48,7 @@ namespace SF.Starter
 			{
 				var name = action.GetAction();
 				var types = action.GetSupportedExtension();
-				if (types[0] == "any")
+				if (types.Length != 0 && types[0] == "any")
 				{
 					anyCommands.Add(name);
 					continue;

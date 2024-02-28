@@ -20,13 +20,23 @@ namespace SF.Domain
                 return true;
             }
 
-            return _users.ContainsKey(accountName) && _accountsPasswords.ContainsKey(accountName) && _accountsPasswords[accountName] == password;
+            return _users.ContainsKey(accountName) && _accountsPasswords.ContainsKey(accountName) 
+                                                   && _accountsPasswords[accountName] == password;
         }
 
-        public bool IsAllowed(string accountName, string filePath)
+        public bool IsAllowedToAccessFile(string accountName, string filePath)
         {
             var userFiles = _users[accountName].Files;
-            return userFiles.Any(file => file.FilePath == filePath);
+            
+            var result = userFiles.Any(file => file.FilePath == filePath);
+            if (result)
+            {
+                return result;
+            }
+            Console.WriteLine("pls bug report this");
+            //if user has file will return true. under normal circumstances will always be true as current logic grants
+            //user all files added to the system, and system bound to user
+            return result;
         }
 
         public long GetAllowedSize(string accountName)
@@ -52,24 +62,30 @@ namespace SF.Domain
             }
             return remainingSize;
         }
-/*
+
         public bool ChangePlan(string accountName, Plan newPlan)
         {
             var currentPlan = _users[accountName].Plan;
-            var currentPlanLimits = _planLimitsDictionary[currentPlan];
-            var newPlanLimits = _planLimitsDictionary[newPlan];
-
-            var userFiles = _users[accountName].Files;
-            if (newPlan == Plan.Basic &&
-                (userFiles.Count > currentPlanLimits.MaxFiles || GetTotalSizeOfFiles(userFiles) > currentPlanLimits.MaxFileSizeBytes))
+            if (currentPlan == newPlan)
             {
-                throw new Exception("Downgrading to Basic plan is not allowed while exceeding file limits.");
+                return true;
             }
-
+            //var currentPlanLimits = _planLimitsDictionary[currentPlan];
+            var newPlanLimits = _planLimitsDictionary[newPlan];
+            var currentFilSize = GetUserFilesSize(accountName);
+            var currentFileNumber = GetUserFilesNumber(accountName);
+                
+            if (currentFilSize > newPlanLimits.MaxFileSizeBytes)
+            {
+                throw new Exception("Downgrading is not allowed while exceeding file size limits.");
+            }
+            if (currentFileNumber > newPlanLimits.MaxFiles)
+            {
+                throw new Exception("Downgrading is not allowed while exceeding file limits.");
+            }
             _users[accountName].Plan = newPlan;
             return true;
         }
-        */
 
         public bool AddFile(string accountName, string filePath, long size)
         {
@@ -126,6 +142,26 @@ namespace SF.Domain
         {
             var userFiles = _users[accountName].Files;
             return userFiles.FirstOrDefault(file => file.FilePath == filePath);
+        }
+        
+        private long GetUserFilesSize(string accountName)
+        {
+            long size = 0;
+            foreach (var file in _users[accountName].Files)
+            {
+                size += file.SizeInBytes;
+            }
+            return size;
+        }
+        
+        private int GetUserFilesNumber(string accountName)
+        {
+            int size = 0;
+            foreach (var file in _users[accountName].Files)
+            {
+                size += 1;
+            }
+            return size;
         }
     }
 }

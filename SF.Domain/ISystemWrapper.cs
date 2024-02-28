@@ -10,7 +10,11 @@ public interface ISystemWrapper
 	long GetFileSizeInBytes(string fileName);
 	string GetFileFullPath(string fileName);
 	string GetFileExtension(string fileName);
-	 T Execute<T>(string fileName, IFileActionStrategy<T> strategy);
-	 bool Login(string accountName, string password);
-	 bool Login(string accountName);
+	T Execute<T>(string fileName, IFileActionStrategy<T> strategy);
+	 
+	//account related commands to be moved in separate interface?
+	bool Login(string accountName, string password);
+	bool Login(string accountName);
+	bool IsAllowedToChangePlan(string planName);
+	void ChangePlan(string planName);
 }

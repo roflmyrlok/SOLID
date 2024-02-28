@@ -6,16 +6,16 @@ using SF.Domain;
 namespace SF.Commands
 {
 	[InputAction]
-	public class LoginINputAction : InputAction<Login>
+	public class LoginInputAction : InputAction<Login>
 	{
 		protected override string Action => "login";
 		protected override string HelpString => "login";
 		
-		protected override string[] SupportedExtensions => ["any"];
+		protected override string[] SupportedExtensions => [];
 
 		private readonly ISystemWrapper _systemWrapper;
 
-		public LoginINputAction(ISystemWrapper systemWrapper)
+		public LoginInputAction(ISystemWrapper systemWrapper)
 		{
 			_systemWrapper = systemWrapper;
 		}
