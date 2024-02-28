@@ -41,6 +41,11 @@ namespace SF.Commands
 			try
 			{
 				var files = _systemWrapper.GetAllFiles();
+				if (files.Count == 0)
+				{
+					Console.WriteLine("You have no files");
+					return;
+				}
 				foreach (var file in files)
 				{
 					Console.WriteLine(file);

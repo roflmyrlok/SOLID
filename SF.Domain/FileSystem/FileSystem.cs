@@ -37,6 +37,17 @@ namespace SF.Domain
             }
             return 0;
         }
+        
+        public long GetFileSizeInBytesFileNotRegistered(string filePath)
+        {
+            FileInfo fileInfo = new FileInfo(filePath);
+            if (fileInfo.Exists)
+            {
+                long fileSizeInBytes = fileInfo.Length;
+                return fileSizeInBytes;
+            }
+            return 0;
+        }
 
         public string GetFileExtension(string name)
         {
