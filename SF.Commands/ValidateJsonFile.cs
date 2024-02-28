@@ -1,7 +1,7 @@
 using SF.Core;
 using SF.Domain;
-using SF.Domain.Actions;
 using System;
+using SF.Commands.Actions;
 
 namespace SF.Commands
 {
@@ -11,7 +11,7 @@ namespace SF.Commands
 		protected override string Action => "validate";
 		protected override string HelpString => "validate csv/json file";
 		
-		protected override string[] SupportedExtensions => [".ranjson"];
+		protected override string[] SupportedExtensions => [".json"];
 
 		private readonly ISystemWrapper _systemWrapper;
 

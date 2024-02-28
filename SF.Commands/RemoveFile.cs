@@ -1,6 +1,5 @@
 using SF.Core;
 using SF.Domain;
-using System;
 
 namespace SF.Commands
 {

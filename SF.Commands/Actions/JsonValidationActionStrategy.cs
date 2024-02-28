@@ -1,10 +1,8 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
-using System.IO;
-using SF.Domain.ExternalInterfaces;
+using SF.Domain;
 
-namespace SF.Domain.Actions
+namespace SF.Commands.Actions
 {
 	
 	[ActionStrategie]

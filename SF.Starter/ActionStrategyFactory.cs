@@ -1,22 +1,21 @@
 using DI.Core;
 using SF.Domain;
-using SF.Domain.Actions;
 using System.Reflection;
-using SF.Domain.ExternalInterfaces;
+using SF.Domain;
 
 
 namespace SF.Starter
 {
 	public class ActionStrategyFactory : IActionStrategyFactory
 	{
-		private readonly IDiContainer diContainer;
+		private readonly IDiContainer _diContainer;
 
 		public ActionStrategyFactory(IDiContainer diContainer)
 		{
-			this.diContainer = diContainer;
+			this._diContainer = diContainer;
 		}
 		
-		public void GetAllStrategies()
+		public void RegisterAllStrategies()
 		{
 			var strategies = GetAllAssemblies()
 				.SelectMany(assembly => assembly.GetTypes())
@@ -31,7 +30,7 @@ namespace SF.Starter
 					//var path = attribute.Path;
 					var interfaceType = typeof(IFileActionStrategy<>).MakeGenericType(strategyType);
 					var implementationType = strategyType;
-					diContainer.Register(interfaceType, implementationType, Scope.Transient);
+					_diContainer.Register(interfaceType, implementationType, Scope.Transient);
 				}
 			}
 		}

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SF.Domain
+﻿namespace SF.Domain
 {
 
 	public class FileDescriptor

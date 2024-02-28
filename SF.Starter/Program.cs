@@ -4,14 +4,17 @@ using SF.Starter;
 
 
 var diContainer = new DiContainer();
-
 diContainer.Register<ISystemWrapper, SystemWrapper>(Scope.Singleton);
 
-var factory2 = new ActionStrategyFactory(diContainer);
-factory2.GetAllStrategies();
-var factory = new InputActionsFactory(diContainer);
-var actions = factory.GetAllActions();
-factory.SetUp();
+var actionStrategyFactory = new ActionStrategyFactory(diContainer);
+actionStrategyFactory.RegisterAllStrategies();
+
+
+var inputActionsFactory = new InputActionsFactory(diContainer);
+var actions = inputActionsFactory.GetAllActions();
+inputActionsFactory.SetUp();
+
+
 while (true)
 {
     var input = Console.ReadLine().ToLower();

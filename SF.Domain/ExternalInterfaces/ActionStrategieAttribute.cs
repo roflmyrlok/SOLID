@@ -1,4 +1,4 @@
-namespace SF.Domain.ExternalInterfaces;
+namespace SF.Domain;
 
 [AttributeUsage(AttributeTargets.Class)]
 

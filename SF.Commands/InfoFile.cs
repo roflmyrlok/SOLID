@@ -8,7 +8,7 @@ namespace SF.Commands
     public class InfoFileInputAction : InputAction<InfoFile>
     {
         protected override string Action => "info";
-        protected override string HelpString => "Infoof a file";
+        protected override string HelpString => "Info of a file";
         
         protected override string[] SupportedExtensions => ["any"];
 

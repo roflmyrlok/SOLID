@@ -8,11 +8,11 @@ namespace SF.Starter
 {
 	public class InputActionsFactory : IInputCommandFactory
 	{
-		private readonly IDiContainer diContainer;
+		private readonly IDiContainer _diContainer;
 
 		public InputActionsFactory(IDiContainer diContainer)
 		{
-			this.diContainer = diContainer;
+			this._diContainer = diContainer;
 		}
 
 		public List<IInputAction> GetAllActions()
@@ -26,9 +26,9 @@ namespace SF.Starter
 			var result = new List<IInputAction>();
 			foreach (var type in commandTypes)
 			{
-				result.Add(diContainer.Instantiate<IInputAction>(type));
+				result.Add(_diContainer.Instantiate<IInputAction>(type));
 			}
-			ISystemWrapper systemWrapper = diContainer.Resolve<ISystemWrapper>();
+			ISystemWrapper systemWrapper = _diContainer.Resolve<ISystemWrapper>();
 			return result;
 		}
 
@@ -71,7 +71,7 @@ namespace SF.Starter
 				}
 			}
 
-			var tmp = diContainer.Resolve<ISystemWrapper>();
+			var tmp = _diContainer.Resolve<ISystemWrapper>();
 			tmp.SetUp(actionsByType);
 		}
 	}

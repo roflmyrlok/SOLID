@@ -1,9 +1,6 @@
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using SF.Domain.ExternalInterfaces;
+using SF.Domain;
 
-namespace SF.Domain.Actions
+namespace SF.Commands.Actions
 {
 	
 	[ActionStrategie]

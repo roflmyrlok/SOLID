@@ -1,7 +1,7 @@
 using SF.Core;
 using SF.Domain;
-using SF.Domain.Actions;
 using System;
+using SF.Commands.Actions;
 
 namespace SF.Commands
 {

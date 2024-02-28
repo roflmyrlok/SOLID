@@ -1,4 +1,4 @@
-namespace SF.Domain.Actions
+namespace SF.Domain
 {
 	public interface IFileActionStrategy<T>
 	{
