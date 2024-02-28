@@ -3,6 +3,8 @@
 ```random.csv```
 ```random.json```
 
+System save works after each command call. Save files stored in Solution_folder/save/save_1
+
 Commands Implemented: 
 
 ```login <account_name>```
