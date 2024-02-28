@@ -5,6 +5,21 @@
 
 System save works after each command call. Save files stored in Solution_folder/save/save_1
 
+
+Event collector stores events at Solution_folder/events_collected
+Example event:
+{
+  "event_name": "user_logged_in",
+  "timestamp": "2024-02-28T17:21:39.070669+02:00",
+  "parameters": {
+    "user_name": [
+      "iampudge"]
+  }
+}
+
+
+
+
 Commands Implemented: 
 
 ```login <account_name>```
