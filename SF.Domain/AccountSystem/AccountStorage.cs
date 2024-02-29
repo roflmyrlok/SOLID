@@ -68,8 +68,15 @@ namespace SF.Domain
         return remainingSize;
     }
 
-    public bool ChangePlan(string accountName, Plan newPlan)
+    public bool ChangePlan(string accountName, string planName)
     {
+        Plan newPlan;
+        switch (planName)
+        {
+            case "gold": newPlan = Plan.Gold; break;
+            case "basic": newPlan = Plan.Basic; break;
+            default: throw new Exception("Plan is not available");
+        }
         var currentPlan = _users[accountName].Plan;
         if (currentPlan == newPlan)
         {

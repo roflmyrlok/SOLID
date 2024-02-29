@@ -11,7 +11,7 @@ public interface IAccountStorage
 
 	long GetAllowedNumber(string accountName);
 
-	bool ChangePlan(string accountName, Plan newPlan);
+	bool ChangePlan(string accountName, string newPlan);
 
 	bool AddFile(string accountName, string filePath, long size);
 

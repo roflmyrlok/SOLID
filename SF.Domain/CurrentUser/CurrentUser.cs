@@ -77,17 +77,9 @@ public class CurrentUser : ICurrentUser, ICurrentUserStarter
 	public bool IsAllowedToChangePlan(string planName, IAccountStorage accountStorage)
 	{
 		IsLogged();
-		Plan newPlan;
-		switch (planName)
-		{
-			case "gold": newPlan = Plan.Gold; break;
-			case "basic": newPlan = Plan.Basic; break;
-			default: throw new Exception("Plan is not available");
-		}
-
 		try
 		{
-			return accountStorage.ChangePlan(_currentUser, newPlan);
+			return accountStorage.ChangePlan(_currentUser, planName);
 		}
 		catch (Exception e)
 		{
@@ -99,18 +91,12 @@ public class CurrentUser : ICurrentUser, ICurrentUserStarter
 	public void ChangePlan(string planName, IAccountStorage accountStorage)
 	{
 		IsLogged();
-		Plan newPlan;
-		switch (planName)
-		{
-			case "gold": newPlan = Plan.Gold; break;
-			case "basic": newPlan = Plan.Basic; break;
-			default: throw new Exception("Plan is not available");
-		}
-		accountStorage.ChangePlan(_currentUser, newPlan);
+		
+		accountStorage.ChangePlan(_currentUser, planName);
 		_eventCollector.CollectEvent("plan_changed", DateTime.Now, new Dictionary<string, List<string>>
 		{
 			{ "user_name", new List<string> { _currentUser } },
-			{ "plan_name", new List<string> { newPlan.ToString() } }
+			{ "plan_name", new List<string> { planName.ToString() } }
 		});
 	}
 
