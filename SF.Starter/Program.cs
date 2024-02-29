@@ -21,10 +21,10 @@ var diContainer = new DiContainer();
 var defaultSaveFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "save") + "/save_1";
 diContainer.Register<IEventCollector, EventCollector>(Scope.Singleton);
 diContainer.Register<IAccountStorage, AccountStorage>(Scope.Singleton);
-//diContainer.Register<IAccountStorageStarter, AccountStorage>(Scope.Singleton);
+diContainer.Register<IAccountStorageStarter, AccountStorage>(Scope.Singleton);
 diContainer.Register<IFileSystem, FileSystem>(Scope.Singleton);
 diContainer.Register<ICurrentUser,CurrentUser>(Scope.Singleton);
-//diContainer.Register<ICurrentUserStarter, CurrentUser>(Scope.Singleton);
+diContainer.Register<ICurrentUserStarter, CurrentUser>(Scope.Singleton);
 diContainer.Register<ISupportedCommands, SupportedCommands>(Scope.Transient);
 
 
@@ -37,10 +37,11 @@ actionStrategyFactory.RegisterAllStrategies();
 var inputActionsFactory = new InputActionsFactory(diContainer);
 
 
-var accountStorageStarter = diContainer.Resolve<IAccountStorage>();
+var accountStorageStarter = diContainer.Resolve<IAccountStorageStarter>();
+
 accountStorageStarter.PathAccountStorage( eventLogger, new Dictionary<string, User>(), new Dictionary<string, string>());
 
-var currentUser = diContainer.Resolve<ICurrentUser>();
+var currentUser = diContainer.Resolve<ICurrentUserStarter>();
 currentUser.PathCurrentUser(eventLogger, diContainer.Resolve<IAccountStorage>(), new Dictionary<string, FileSystem>());
 
 

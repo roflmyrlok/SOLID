@@ -18,7 +18,4 @@ public interface IAccountStorage
 	bool RemoveFile(string accountName, string filePath);
 
 	bool AccountExist(string accountName);
-
-	public void PathAccountStorage(IEventCollector eventCollector, Dictionary<string, User> users,
-		Dictionary<string, string> accountsPasswords);
 }

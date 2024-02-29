@@ -19,3 +19,45 @@
     ]
   }
 }
+{
+  "event_name": "user_logged_in",
+  "timestamp": "2024-02-29T16:35:48.3256+02:00",
+  "parameters": {
+    "user_name": [
+      "qwerqwerqwer"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-29T16:35:55.585864+02:00",
+  "parameters": {
+    "shortcut": [
+      "c"
+    ],
+    "filetype": [
+      ".csv"
+    ]
+  }
+}
+{
+  "event_name": "user_logged_in",
+  "timestamp": "2024-02-29T16:49:09.323031+02:00",
+  "parameters": {
+    "user_name": [
+      "qwerqwerqwer"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-29T16:49:15.777424+02:00",
+  "parameters": {
+    "shortcut": [
+      "c"
+    ],
+    "filetype": [
+      ".csv"
+    ]
+  }
+}

@@ -11,7 +11,6 @@ public interface ICurrentUser
 	bool IsAllowedUserFile(long fileSize);
 	bool IsAllowedToChangePlan(string planName);
 	void ChangePlan(string planName);
-	public void PathCurrentUser(IEventCollector eventCollector, IAccountStorage accountStorage, Dictionary<string, FileSystem> userFileSystem);
-
+	
 	
 }
