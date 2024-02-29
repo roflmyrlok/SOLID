@@ -61,3 +61,249 @@
     ]
   }
 }
+{
+  "event_name": "user_logged_in",
+  "timestamp": "2024-02-29T17:03:58.831609+02:00",
+  "parameters": {
+    "user_name": [
+      "wqerqwerqwerewq"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-29T17:04:03.582823+02:00",
+  "parameters": {
+    "shortcut": [
+      "random.csv"
+    ],
+    "filetype": [
+      ".csv"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-29T17:04:08.03945+02:00",
+  "parameters": {
+    "shortcut": [
+      "random.txt"
+    ],
+    "filetype": [
+      ".txt"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-29T17:04:16.310467+02:00",
+  "parameters": {
+    "shortcut": [
+      "j"
+    ],
+    "filetype": [
+      ".json"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-29T17:04:56.331799+02:00",
+  "parameters": {
+    "shortcut": [
+      "c"
+    ],
+    "filetype": [
+      ".csv"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-29T17:05:02.690792+02:00",
+  "parameters": {
+    "shortcut": [
+      "t"
+    ],
+    "filetype": [
+      ".txt"
+    ]
+  }
+}
+{
+  "event_name": "user_logged_in",
+  "timestamp": "2024-02-29T17:07:44.69209+02:00",
+  "parameters": {
+    "user_name": [
+      "qewrqwerqwer"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-29T17:08:26.74186+02:00",
+  "parameters": {
+    "shortcut": [
+      "t"
+    ],
+    "filetype": [
+      ".txt"
+    ]
+  }
+}
+{
+  "event_name": "user_logged_in",
+  "timestamp": "2024-02-29T17:13:40.842599+02:00",
+  "parameters": {
+    "user_name": [
+      "qwerqwer"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-29T17:13:49.747585+02:00",
+  "parameters": {
+    "shortcut": [
+      "random.txt"
+    ],
+    "filetype": [
+      ".txt"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-29T17:14:02.201844+02:00",
+  "parameters": {
+    "shortcut": [
+      "random.txt"
+    ],
+    "filetype": [
+      ".txt"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-29T17:14:07.375324+02:00",
+  "parameters": {
+    "shortcut": [
+      "t"
+    ],
+    "filetype": [
+      ".txt"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-29T17:14:52.721151+02:00",
+  "parameters": {
+    "shortcut": [
+      "c"
+    ],
+    "filetype": [
+      ".csv"
+    ]
+  }
+}
+{
+  "event_name": "user_logged_in",
+  "timestamp": "2024-02-29T17:16:21.963113+02:00",
+  "parameters": {
+    "user_name": [
+      "qwerqwe"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-29T17:16:26.696873+02:00",
+  "parameters": {
+    "shortcut": [
+      ""
+    ],
+    "filetype": [
+      ".csv"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-29T17:16:48.860105+02:00",
+  "parameters": {
+    "shortcut": [
+      "t"
+    ],
+    "filetype": [
+      ".csv"
+    ]
+  }
+}
+{
+  "event_name": "user_logged_in",
+  "timestamp": "2024-02-29T17:18:15.537931+02:00",
+  "parameters": {
+    "user_name": [
+      "qwerqwer"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-29T17:18:26.606807+02:00",
+  "parameters": {
+    "shortcut": [
+      "t"
+    ],
+    "filetype": [
+      ".txt"
+    ]
+  }
+}
+{
+  "event_name": "user_logged_in",
+  "timestamp": "2024-02-29T17:19:18.262044+02:00",
+  "parameters": {
+    "user_name": [
+      "qwerqwer"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-29T17:19:24.871959+02:00",
+  "parameters": {
+    "shortcut": [
+      "c"
+    ],
+    "filetype": [
+      ".csv"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-29T17:19:30.871722+02:00",
+  "parameters": {
+    "shortcut": [
+      "t"
+    ],
+    "filetype": [
+      ".txt"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-29T17:19:35.731278+02:00",
+  "parameters": {
+    "shortcut": [
+      "j"
+    ],
+    "filetype": [
+      ".json"
+    ]
+  }
+}

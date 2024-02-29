@@ -11,6 +11,10 @@ public class SupportedCommands : ISupportedCommands
 	
 	public List<string> GetSupportedCommands(string type)
 	{
+		if (!_typeSupportedActions.ContainsKey(type))
+		{
+			type = "T";
+		}
 		return _typeSupportedActions[type];
 	}
 }
