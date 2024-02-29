@@ -1,8 +1,10 @@
 namespace SF.Domain
 {
-    public class FileSystem
+    public class FileSystem : IFileSystem
     {
         public readonly List<FileDescriptor> files = new List<FileDescriptor>();
+        public IEventCollector EventCollector;
+        
         private string _dataDirectoryPath =
             Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "test_data");
         
@@ -11,11 +13,21 @@ namespace SF.Domain
             filePath = GetFileConfiguredPath(filePath);
             var fileDescriptor = new FileDescriptor(name, filePath);
             files.Add(fileDescriptor);
+             EventCollector.CollectEvent("file_added", DateTime.Now, new Dictionary<string, List<string>>
+            {
+                { "shortcut", new List<string> { name } },
+                { "filetype", new List<string> {  GetFileExtension(name) } }
+            });
         }
 
         public void Remove(string name)
         {
             files.Remove(files.FirstOrDefault(e => e.Name == name));
+            EventCollector.CollectEvent("file_removed", DateTime.Now, new Dictionary<string, List<string>>
+            {
+                { "shortcut", new List<string> { name } },
+                { "filetype", new List<string> { GetFileExtension(name) } }
+            });
         }
 
         public List<FileDescriptor> GetAll()
@@ -101,5 +113,11 @@ namespace SF.Domain
         {
             return Path.Combine(_dataDirectoryPath, fileName);
         }
+
+        public void PathEventCollector(IEventCollector eventCollector)
+        {
+            EventCollector = eventCollector;
+        }
+
     }
 }

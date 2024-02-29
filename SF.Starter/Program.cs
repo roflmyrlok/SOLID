@@ -1,5 +1,6 @@
 ﻿using DI.Core;
 using SF.Domain;
+using SF.Domain.CurrentUser;
 using SF.Starter;
 
 // currently all files will be searched in this directory:
@@ -18,22 +19,37 @@ Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "sav
 
 var diContainer = new DiContainer();
 var defaultSaveFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "save") + "/save_1";
-diContainer.Register<ISystemWrapper, SystemWrapper>(Scope.Singleton);
+diContainer.Register<IEventCollector, EventCollector>(Scope.Singleton);
+diContainer.Register<IAccountStorage, AccountStorage>(Scope.Singleton);
+//diContainer.Register<IAccountStorageStarter, AccountStorage>(Scope.Singleton);
+diContainer.Register<IFileSystem, FileSystem>(Scope.Singleton);
+diContainer.Register<ICurrentUser,CurrentUser>(Scope.Singleton);
+//diContainer.Register<ICurrentUserStarter, CurrentUser>(Scope.Singleton);
+diContainer.Register<ISupportedCommands, SupportedCommands>(Scope.Transient);
+
+
+var eventLogger = diContainer.Resolve<IEventCollector>();
+
 
 var actionStrategyFactory = new ActionStrategyFactory(diContainer);
 actionStrategyFactory.RegisterAllStrategies();
 
-
 var inputActionsFactory = new InputActionsFactory(diContainer);
+
+
+var accountStorageStarter = diContainer.Resolve<IAccountStorage>();
+accountStorageStarter.PathAccountStorage( eventLogger, new Dictionary<string, User>(), new Dictionary<string, string>());
+
+var currentUser = diContainer.Resolve<ICurrentUser>();
+currentUser.PathCurrentUser(eventLogger, diContainer.Resolve<IAccountStorage>(), new Dictionary<string, FileSystem>());
+
+
+
 var actions = inputActionsFactory.GetAllActions();
+
 inputActionsFactory.SetUp();
 
-var eventLoggerSetUp = diContainer.Resolve<ISystemWrapper>();
-var eventLogger = new EventCollector();
-eventLoggerSetUp.SetUpEventCollector(eventLogger);
 
-var saver = diContainer.Resolve<ISystemWrapper>();
-saver.Restore(defaultSaveFilePath);
 
 while (true)
 {
@@ -46,10 +62,7 @@ while (true)
     {
         Console.WriteLine($"Unknown command '{input}', please try again");
     }
-    saver.Save(defaultSaveFilePath);
 }
-
-saver.Save(defaultSaveFilePath);
 
 bool TryHandle(string input)
 {

@@ -13,16 +13,16 @@ namespace SF.Commands
 		
 		protected override string[] SupportedExtensions => [];
 
-		private readonly ISystemWrapper _systemWrapper;
+		private readonly ICurrentUser _currentUser;
 
-		public ChangePlanInputAction(ISystemWrapper systemWrapper)
+		public ChangePlanInputAction(ICurrentUser currentUser)
 		{
-			_systemWrapper = systemWrapper;
+			_currentUser = currentUser;
 		}
 
 		protected override ChangePlan GetCommandInternal(string[] args)
 		{
-			return new ChangePlan(_systemWrapper, args);
+			return new ChangePlan(_currentUser, args);
 		}
 	}
 
@@ -30,22 +30,22 @@ namespace SF.Commands
 	public class ChangePlan : Command
 	{
 		private string _planName;
-		private readonly ISystemWrapper _systemWrapper;
+		private readonly ICurrentUser _currentUser;
 
-		public ChangePlan(ISystemWrapper systemWrapper, string[] args)
+		public ChangePlan(ICurrentUser currentUser, string[] args)
 		{
 			_planName = args[0];
-			_systemWrapper = systemWrapper;
+			_currentUser = currentUser;
 		}
 
 		public override void Execute()
 		{
 			try
 			{
-				var isAllowedToChangePlan = _systemWrapper.IsAllowedToChangePlan(_planName);
+				var isAllowedToChangePlan = _currentUser .IsAllowedToChangePlan(_planName);
 				if (isAllowedToChangePlan)
 				{
-					_systemWrapper.ChangePlan(_planName);
+					 _currentUser .ChangePlan(_planName);
 					return;
 				}
 				Console.WriteLine("Pls remove some files before changing to a new plan");

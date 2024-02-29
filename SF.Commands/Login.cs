@@ -13,9 +13,9 @@ namespace SF.Commands
 		
 		protected override string[] SupportedExtensions => [];
 
-		private readonly ISystemWrapper _systemWrapper;
+		private readonly ICurrentUser _systemWrapper;
 
-		public LoginInputAction(ISystemWrapper systemWrapper)
+		public LoginInputAction(ICurrentUser systemWrapper)
 		{
 			_systemWrapper = systemWrapper;
 		}
@@ -30,9 +30,9 @@ namespace SF.Commands
 	public class Login : Command
 	{
 		private string _accountName;
-		private readonly ISystemWrapper _systemWrapper;
+		private readonly ICurrentUser _systemWrapper;
 
-		public Login(ISystemWrapper systemWrapper, string[] args)
+		public Login(ICurrentUser systemWrapper, string[] args)
 		{
 			_accountName = args[0];
 			_systemWrapper = systemWrapper;
@@ -42,11 +42,7 @@ namespace SF.Commands
 		{
 			try
 			{
-				var attempt = _systemWrapper.Login(_accountName);
-				if (attempt == false)
-				{
-					Console.WriteLine("wrong password");
-				}
+				_systemWrapper.Login(_accountName);
 			}
 			catch (Exception e)
 			{
