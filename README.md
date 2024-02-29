@@ -1,3 +1,4 @@
+It works, no SOLID
 3 test files with txt, csv and json data present. Solution_folder/test_data is used as a default directory for files
 ```random.txt```
 ```random.csv```
