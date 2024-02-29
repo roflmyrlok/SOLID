@@ -2,6 +2,6 @@ namespace SF.Domain;
 
 public interface ICurrentUserStarter
 {
-	void PathCurrentUser(IEventCollector eventCollector, IAccountStorage accountStorage, Dictionary<string, FileSystem> userFileSystem);
+	void PathCurrentUser(IEventCollector eventCollector, Dictionary<string, FileSystem> userFileSystem);
 
 }

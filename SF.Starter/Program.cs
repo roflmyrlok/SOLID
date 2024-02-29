@@ -33,7 +33,7 @@ var inputActionsFactory = new InputActionsFactory(diContainer);
 var accountStorageStarter = diContainer.Resolve<IAccountStorageStarter>();
 accountStorageStarter.PathAccountStorage( eventLogger, new Dictionary<string, User>(), new Dictionary<string, string>());
 var currentUser = diContainer.Resolve<ICurrentUserStarter>();
-currentUser.PathCurrentUser(eventLogger, diContainer.Resolve<IAccountStorage>(), new Dictionary<string, FileSystem>());
+currentUser.PathCurrentUser(eventLogger, new Dictionary<string, FileSystem>());
 var actions = inputActionsFactory.GetAllActions();
 inputActionsFactory.SetUp();
 

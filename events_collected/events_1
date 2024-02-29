@@ -307,3 +307,99 @@
     ]
   }
 }
+{
+  "event_name": "user_logged_in",
+  "timestamp": "2024-02-29T17:43:04.951721+02:00",
+  "parameters": {
+    "user_name": [
+      "qwerqwer"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-29T17:43:10.671787+02:00",
+  "parameters": {
+    "shortcut": [
+      "random.csv"
+    ],
+    "filetype": [
+      ".csv"
+    ]
+  }
+}
+{
+  "event_name": "user_logged_in",
+  "timestamp": "2024-02-29T17:43:15.791703+02:00",
+  "parameters": {
+    "user_name": [
+      "qwerwqerwer"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-29T17:43:22.12605+02:00",
+  "parameters": {
+    "shortcut": [
+      ""
+    ],
+    "filetype": [
+      ".csv"
+    ]
+  }
+}
+{
+  "event_name": "user_logged_in",
+  "timestamp": "2024-02-29T17:45:35.748725+02:00",
+  "parameters": {
+    "user_name": [
+      "qwerqwer"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-29T17:45:43.648619+02:00",
+  "parameters": {
+    "shortcut": [
+      "c"
+    ],
+    "filetype": [
+      ".csv"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-29T17:45:48.833015+02:00",
+  "parameters": {
+    "shortcut": [
+      "random.csv"
+    ],
+    "filetype": [
+      ".csv"
+    ]
+  }
+}
+{
+  "event_name": "user_logged_in",
+  "timestamp": "2024-02-29T17:46:41.86075+02:00",
+  "parameters": {
+    "user_name": [
+      "qwerqwer"
+    ]
+  }
+}
+{
+  "event_name": "file_added",
+  "timestamp": "2024-02-29T17:46:48.385203+02:00",
+  "parameters": {
+    "shortcut": [
+      ""
+    ],
+    "filetype": [
+      ".csv"
+    ]
+  }
+}

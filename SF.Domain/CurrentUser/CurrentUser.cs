@@ -5,23 +5,22 @@ public class CurrentUser : ICurrentUser, ICurrentUserStarter
 	public string _currentUser;
 	public IFileSystem _currentFileSystem;
 	public IEventCollector _eventCollector;
-	public IAccountStorage _accountStorage;
 	public Dictionary<string, FileSystem> _userFileSystem = new Dictionary<string, FileSystem>();
 
-	public void Login(string accountName)
+	public void Login(string accountName, IAccountStorage accountStorage)
 	{
-		Login(accountName, password:"");
+		Login(accountName, password:"", accountStorage);
 	}
-	public void Login(string accountName, string password)
+	public void Login(string accountName, string password, IAccountStorage accountStorage)
 	{
 		_eventCollector.CollectEvent("user_logged_in", DateTime.Now, new Dictionary<string, List<string>> { { "user_name", new List<string> { accountName } } });
 		if (accountName.Length <= 5)
 		{
 			throw new Exception("Account name must be at least 5 symbols");
 		}
-		if (_accountStorage.AccountExist(accountName))
+		if (accountStorage.AccountExist(accountName))
 		{
-			if (_accountStorage.Login(accountName, password))
+			if (accountStorage.Login(accountName, password))
 			{
 				_currentUser = accountName;
 				_currentFileSystem = _userFileSystem[accountName];
@@ -31,7 +30,7 @@ public class CurrentUser : ICurrentUser, ICurrentUserStarter
 			throw new Exception("Password is incorrect");
 		}
 		//new user
-		if (_accountStorage.Login(accountName, password))
+		if (accountStorage.Login(accountName, password))
 		{
 			_currentUser = accountName;
 			var newFileSys = new FileSystem();
@@ -51,10 +50,10 @@ public class CurrentUser : ICurrentUser, ICurrentUserStarter
 		}
 	}
 	
-	public bool IsAllowedUserFile(long fileSize)
+	public bool IsAllowedUserFile(long fileSize, IAccountStorage accountStorage)
 	{
-		var allowedSize = _accountStorage.GetAllowedSize(_currentUser);
-		var allowedNumber = _accountStorage.GetAllowedNumber(_currentUser);
+		var allowedSize = accountStorage.GetAllowedSize(_currentUser);
+		var allowedNumber = accountStorage.GetAllowedNumber(_currentUser);
 		if (allowedNumber <= 0)
 		{
 			_eventCollector.CollectEvent("limit_reached", DateTime.Now, new Dictionary<string, List<string>>
@@ -75,7 +74,7 @@ public class CurrentUser : ICurrentUser, ICurrentUserStarter
 		return true;
 	}
 	
-	public bool IsAllowedToChangePlan(string planName)
+	public bool IsAllowedToChangePlan(string planName, IAccountStorage accountStorage)
 	{
 		IsLogged();
 		Plan newPlan;
@@ -88,7 +87,7 @@ public class CurrentUser : ICurrentUser, ICurrentUserStarter
 
 		try
 		{
-			return _accountStorage.ChangePlan(_currentUser, newPlan);
+			return accountStorage.ChangePlan(_currentUser, newPlan);
 		}
 		catch (Exception e)
 		{
@@ -97,7 +96,7 @@ public class CurrentUser : ICurrentUser, ICurrentUserStarter
 			
 	}
 	
-	public void ChangePlan(string planName)
+	public void ChangePlan(string planName, IAccountStorage accountStorage)
 	{
 		IsLogged();
 		Plan newPlan;
@@ -107,7 +106,7 @@ public class CurrentUser : ICurrentUser, ICurrentUserStarter
 			case "basic": newPlan = Plan.Basic; break;
 			default: throw new Exception("Plan is not available");
 		}
-		_accountStorage.ChangePlan(_currentUser, newPlan);
+		accountStorage.ChangePlan(_currentUser, newPlan);
 		_eventCollector.CollectEvent("plan_changed", DateTime.Now, new Dictionary<string, List<string>>
 		{
 			{ "user_name", new List<string> { _currentUser } },
@@ -120,22 +119,15 @@ public class CurrentUser : ICurrentUser, ICurrentUserStarter
 		return _currentFileSystem;
 	}
 
-	public IAccountStorage GetAccountStorage()
-	{
-		return _accountStorage;
-	}
-
 	public string GetUser()
 	{
 		return _currentUser;
 	}
 
 	public void PathCurrentUser(IEventCollector eventCollector,
-		IAccountStorage accountStorage,
 		Dictionary<string, FileSystem> userFileSystem)
 	{
 		_eventCollector = eventCollector;
-		_accountStorage = accountStorage;
 		_userFileSystem = userFileSystem;
 	}
 }

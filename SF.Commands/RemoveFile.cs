@@ -12,10 +12,12 @@ namespace SF.Commands
 		protected override string[] SupportedExtensions => ["any"];
 
 		private readonly ICurrentUser _systemWrapper;
+		private readonly IAccountStorage _accountStorage;
 
-		public RemoveFileInputAction(ICurrentUser systemWrapper)
+		public RemoveFileInputAction(ICurrentUser systemWrapper, IAccountStorage accountStorage)
 		{
 			_systemWrapper = systemWrapper;
+			_accountStorage = accountStorage;
 		}
 
 		protected override RemoveFileCommand GetCommandInternal(string[] args)
@@ -25,7 +27,7 @@ namespace SF.Commands
 				throw new ArgumentException("File name is required for remove command.");
 			}
 
-			return new RemoveFileCommand(_systemWrapper, args[0]);
+			return new RemoveFileCommand(_systemWrapper, _accountStorage, args[0]);
 		}
 	}
 
@@ -34,8 +36,9 @@ namespace SF.Commands
 	{
 		private readonly ICurrentUser _systemWrapper;
 		private readonly string _filePath;
+		private readonly IAccountStorage _accountStorage;
 
-		public RemoveFileCommand(ICurrentUser systemWrapper, string filePath)
+		public RemoveFileCommand(ICurrentUser systemWrapper, IAccountStorage accountStorage, string filePath)
 		{
 			_systemWrapper = systemWrapper ?? throw new ArgumentNullException(nameof(systemWrapper));
 			_filePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
@@ -46,7 +49,6 @@ namespace SF.Commands
 			try
 			{
 				_systemWrapper.IsLogged();
-				var _accountStorage = _systemWrapper.GetAccountStorage();
 				var _currentFileSystem = _systemWrapper.GetFileSystem();
 				if (!_accountStorage.IsAllowedToAccessFile(_systemWrapper.GetUser(), _filePath))
 				{

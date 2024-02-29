@@ -14,15 +14,17 @@ namespace SF.Commands
 		protected override string[] SupportedExtensions => [];
 
 		private readonly ICurrentUser _currentUser;
+		private readonly IAccountStorage _accountStorage;
 
-		public ChangePlanInputAction(ICurrentUser currentUser)
+		public ChangePlanInputAction(ICurrentUser currentUser, IAccountStorage accountStorage)
 		{
 			_currentUser = currentUser;
+			_accountStorage = accountStorage;
 		}
 
 		protected override ChangePlan GetCommandInternal(string[] args)
 		{
-			return new ChangePlan(_currentUser, args);
+			return new ChangePlan(_currentUser, _accountStorage, args);
 		}
 	}
 
@@ -31,21 +33,23 @@ namespace SF.Commands
 	{
 		private string _planName;
 		private readonly ICurrentUser _currentUser;
+		private readonly IAccountStorage _accountStorage;
 
-		public ChangePlan(ICurrentUser currentUser, string[] args)
+		public ChangePlan(ICurrentUser currentUser, IAccountStorage accountStorage, string[] args)
 		{
 			_planName = args[0];
 			_currentUser = currentUser;
+			_accountStorage = accountStorage;
 		}
 
 		public override void Execute()
 		{
 			try
 			{
-				var isAllowedToChangePlan = _currentUser .IsAllowedToChangePlan(_planName);
+				var isAllowedToChangePlan = _currentUser .IsAllowedToChangePlan(_planName, _accountStorage);
 				if (isAllowedToChangePlan)
 				{
-					 _currentUser .ChangePlan(_planName);
+					 _currentUser .ChangePlan(_planName, _accountStorage);
 					return;
 				}
 				Console.WriteLine("Pls remove some files before changing to a new plan");

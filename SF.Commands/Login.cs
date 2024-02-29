@@ -15,14 +15,17 @@ namespace SF.Commands
 
 		private readonly ICurrentUser _systemWrapper;
 
-		public LoginInputAction(ICurrentUser systemWrapper)
+		private readonly IAccountStorage _accountStorage;
+
+		public LoginInputAction(ICurrentUser systemWrapper, IAccountStorage accountStorage)
 		{
 			_systemWrapper = systemWrapper;
+			_accountStorage = accountStorage;
 		}
 
 		protected override Login GetCommandInternal(string[] args)
 		{
-			return new Login(_systemWrapper, args);
+			return new Login(_systemWrapper, _accountStorage, args);
 		}
 	}
 
@@ -31,18 +34,20 @@ namespace SF.Commands
 	{
 		private string _accountName;
 		private readonly ICurrentUser _systemWrapper;
+		private readonly IAccountStorage _accountStorage;
 
-		public Login(ICurrentUser systemWrapper, string[] args)
+		public Login(ICurrentUser systemWrapper, IAccountStorage accountStorage, string[] args)
 		{
 			_accountName = args[0];
 			_systemWrapper = systemWrapper;
+			_accountStorage = accountStorage;
 		}
 
 		public override void Execute()
 		{
 			try
 			{
-				_systemWrapper.Login(_accountName);
+				_systemWrapper.Login(_accountName, _accountStorage);
 			}
 			catch (Exception e)
 			{
