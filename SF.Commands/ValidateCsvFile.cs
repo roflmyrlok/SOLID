@@ -13,16 +13,16 @@ namespace SF.Commands
 		
 		protected override string[] SupportedExtensions => [".csv"];
 
-		private readonly ICurrentUser _systemWrapper;
+		private readonly ICurrentUser _currentUser;
 
-		public ValidateCsvFileInputAction(ICurrentUser systemWrapper)
+		public ValidateCsvFileInputAction(ICurrentUser currentUser)
 		{
-			_systemWrapper = systemWrapper;
+			_currentUser = currentUser;
 		}
 
 		protected override ValidateCsvFile GetCommandInternal(string[] args)
 		{
-			return new ValidateCsvFile(_systemWrapper, args);
+			return new ValidateCsvFile(_currentUser, args);
 		}
 	}
 
@@ -31,12 +31,12 @@ namespace SF.Commands
 	{
 		private readonly IFileActionStrategy<bool> _fileActionStrategy;
 		private readonly string _filePath;
-		private readonly ICurrentUser _systemWrapper;
+		private readonly ICurrentUser _currentUser;
 
-		public ValidateCsvFile(ICurrentUser systemWrapper, string[] args)
+		public ValidateCsvFile(ICurrentUser currentUser, string[] args)
 		{
 			_filePath = args[0];
-			_systemWrapper = systemWrapper;
+			_currentUser = currentUser;
 			_fileActionStrategy = new CsvValidationFileActionStrategy();
 		}
 
@@ -44,7 +44,7 @@ namespace SF.Commands
 		{
 			try
 			{
-				var valid = _systemWrapper.GetFileSystem().Execute(_filePath, _fileActionStrategy);
+				var valid = _currentUser.GetFileSystem().Execute(_filePath, _fileActionStrategy);
 				Console.WriteLine(valid ? "valid file" : "non-valid file");
 			}
 			catch (Exception e)

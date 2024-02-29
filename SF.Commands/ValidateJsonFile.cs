@@ -13,16 +13,16 @@ namespace SF.Commands
 		
 		protected override string[] SupportedExtensions => [".json"];
 
-		private readonly ICurrentUser _systemWrapper;
+		private readonly ICurrentUser _currentUser;
 
-		public ValidateJsonFileInputAction(ICurrentUser systemWrapper)
+		public ValidateJsonFileInputAction(ICurrentUser currentUser)
 		{
-			_systemWrapper = systemWrapper;
+			_currentUser = currentUser;
 		}
 
 		protected override ValidateJsonFile GetCommandInternal(string[] args)
 		{
-			return new ValidateJsonFile(_systemWrapper, args);
+			return new ValidateJsonFile(_currentUser, args);
 		}
 	}
 
@@ -31,12 +31,12 @@ namespace SF.Commands
 	{
 		private readonly IFileActionStrategy<bool> _fileActionStrategy;
 		private readonly string _filePath;
-		private readonly ICurrentUser _systemWrapper;
+		private readonly ICurrentUser _currentUser;
 
-		public ValidateJsonFile(ICurrentUser systemWrapper, string[] args)
+		public ValidateJsonFile(ICurrentUser currentUser, string[] args)
 		{
 			_filePath = args[0];
-			_systemWrapper = systemWrapper;
+			_currentUser = currentUser;
 			_fileActionStrategy = new JsonValidationFileActionStrategy();
 		}
 
@@ -44,7 +44,7 @@ namespace SF.Commands
 		{
 			try
 			{
-				var valid = _systemWrapper.GetFileSystem().Execute(_filePath, _fileActionStrategy);
+				var valid = _currentUser.GetFileSystem().Execute(_filePath, _fileActionStrategy);
 				Console.WriteLine(valid ? "valid file" : "non-valid file");
 			}
 			catch (Exception e)

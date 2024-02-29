@@ -13,16 +13,16 @@ namespace SF.Commands
 		
 		protected override string[] SupportedExtensions => [".txt"];
 
-		private readonly ICurrentUser _systemWrapper;
+		private readonly ICurrentUser _currentUser;
 
-		public SummaryFileInputAction(ICurrentUser systemWrapper)
+		public SummaryFileInputAction(ICurrentUser currentUser)
 		{
-			_systemWrapper = systemWrapper;
+			_currentUser = currentUser;
 		}
 
 		protected override SummaryFile GetCommandInternal(string[] args)
 		{
-			return new SummaryFile(_systemWrapper, args);
+			return new SummaryFile(_currentUser, args);
 		}
 	}
 
@@ -31,14 +31,14 @@ namespace SF.Commands
 	{
 		private readonly IFileActionStrategy<List<string>> _fileActionStrategy;
 		private readonly string _filePath;
-		private readonly ICurrentUser _systemWrapper;
+		private readonly ICurrentUser _currentUser;
 		
-		public SummaryFile(ICurrentUser systemWrapper, string[] args)
+		public SummaryFile(ICurrentUser currentUser, string[] args)
 		{
 			_filePath = args[0];
-			_systemWrapper = systemWrapper;
+			_currentUser = currentUser;
 
-			if (systemWrapper.GetFileSystem().GetFileExtension(_filePath) == ".txt")
+			if (currentUser.GetFileSystem().GetFileExtension(_filePath) == ".txt")
 			{
 				_fileActionStrategy = new SummaryFileActionStrategy();
 			}
@@ -52,7 +52,7 @@ namespace SF.Commands
 		{
 			try
 			{
-				var table = _systemWrapper.GetFileSystem().Execute(_filePath, _fileActionStrategy);
+				var table = _currentUser.GetFileSystem().Execute(_filePath, _fileActionStrategy);
 				foreach (var line in table)
 				{
 					Console.WriteLine(line);

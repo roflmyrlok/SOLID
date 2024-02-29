@@ -12,16 +12,16 @@ namespace SF.Commands
 		
 		protected override string[] SupportedExtensions => [".csv"];
 
-		private readonly ICurrentUser _systemWrapper;
+		private readonly ICurrentUser _currentUser;
 
-		public PrintCsvFileInputAction(ICurrentUser systemWrapper)
+		public PrintCsvFileInputAction(ICurrentUser currentUser)
 		{
-			_systemWrapper = systemWrapper;
+			_currentUser = currentUser;
 		}
 
 		protected override PrintCsvFile GetCommandInternal(string[] args)
 		{
-			return new PrintCsvFile(_systemWrapper, args);
+			return new PrintCsvFile(_currentUser, args);
 		}
 	}
 
@@ -30,12 +30,12 @@ namespace SF.Commands
 	{
 		private readonly IFileActionStrategy<string> _fileActionStrategy;
 		private readonly string _filePath;
-		private readonly ICurrentUser _systemWrapper;
+		private readonly ICurrentUser _currentUser;
 
-		public PrintCsvFile(ICurrentUser systemWrapper, string[] args)
+		public PrintCsvFile(ICurrentUser currentUser, string[] args)
 		{
 			_filePath = args[0];
-			_systemWrapper = systemWrapper;
+			_currentUser = currentUser;
 			_fileActionStrategy = new CsvTableFileActionStrategy();
 		}
 
@@ -43,7 +43,7 @@ namespace SF.Commands
 		{
 			try
 			{
-				var table = _systemWrapper.GetFileSystem().Execute(_filePath, _fileActionStrategy);
+				var table = _currentUser.GetFileSystem().Execute(_filePath, _fileActionStrategy);
 				Console.WriteLine(table);
 			}
 			catch (Exception e)

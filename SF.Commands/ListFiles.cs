@@ -13,35 +13,35 @@ namespace SF.Commands
 		
 		protected override string[] SupportedExtensions => ["any"];
 
-		private readonly ICurrentUser _systemWrapper;
+		private readonly ICurrentUser _currentUser;
 
-		public ListFilesInputAction(ICurrentUser systemWrapper)
+		public ListFilesInputAction(ICurrentUser currentUser)
 		{
-			_systemWrapper = systemWrapper ?? throw new ArgumentNullException(nameof(systemWrapper));
+			_currentUser = currentUser ?? throw new ArgumentNullException(nameof(currentUser));
 		}
 
 		protected override ListFilesCommand GetCommandInternal(string[] args)
 		{
-			return new ListFilesCommand(_systemWrapper);
+			return new ListFilesCommand(_currentUser);
 		}
 	}
 
 	[Command]
 	public class ListFilesCommand : Command
 	{
-		private readonly ICurrentUser _systemWrapper;
+		private readonly ICurrentUser _currentUser;
 
-		public ListFilesCommand(ICurrentUser systemWrapper)
+		public ListFilesCommand(ICurrentUser currentUser)
 		{
-			_systemWrapper = systemWrapper ?? throw new ArgumentNullException(nameof(systemWrapper));
+			_currentUser = currentUser ?? throw new ArgumentNullException(nameof(currentUser));
 		}
 
 		public override void Execute()
 		{
 			try
 			{
-				_systemWrapper.IsLogged();
-				var tmp = _systemWrapper.GetFileSystem().GetAll();
+				_currentUser.IsLogged();
+				var tmp = _currentUser.GetFileSystem().GetAll();
 				var files  = new List<string>();
 				foreach (var file in tmp)
 				{
