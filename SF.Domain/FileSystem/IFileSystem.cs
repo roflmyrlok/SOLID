@@ -1,7 +1,7 @@
 
 namespace SF.Domain
 {
-	public interface IFileSystem
+	public interface IFileSystem 
 	{
 		void Add(string filePath, string name);
 
@@ -22,7 +22,5 @@ namespace SF.Domain
 		bool ExistByPath(string filePath);
 
 		T Execute<T>(string name, IFileActionStrategy<T> strategy);
-
-		public void PathEventCollector(IEventCollector eventCollector);
 	}
 }

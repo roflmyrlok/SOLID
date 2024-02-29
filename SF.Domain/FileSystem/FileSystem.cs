@@ -1,6 +1,6 @@
 namespace SF.Domain
 {
-    public class FileSystem : IFileSystem
+    public class FileSystem : IFileSystem, IFileSystemLogger
     {
         public readonly List<FileDescriptor> files = new List<FileDescriptor>();
         public IEventCollector EventCollector;

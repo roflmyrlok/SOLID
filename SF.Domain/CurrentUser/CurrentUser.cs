@@ -37,7 +37,8 @@ public class CurrentUser : ICurrentUser, ICurrentUserStarter
 			var newFileSys = new FileSystem();
 			_userFileSystem.Add(accountName, newFileSys);
 			_currentFileSystem = _userFileSystem[accountName];
-			_currentFileSystem.PathEventCollector(_eventCollector);
+			var tmp = (IFileSystemLogger) _currentFileSystem;
+			tmp.PathEventCollector(_eventCollector);
 			return;
 		}
 		throw new Exception("Bad Error");
