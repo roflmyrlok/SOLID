@@ -12,28 +12,32 @@ namespace SF.Commands
         
         protected override string[] SupportedExtensions => ["any"];
 
-        private readonly ISystemWrapper _systemWrapper;
+        private readonly ICurrentUser _currentUser;
+        private readonly ISupportedCommands _supportedCommands;
 
-        public InfoFileInputAction(ISystemWrapper systemWrapper)
+        public InfoFileInputAction(ICurrentUser currentUser, ISupportedCommands supportedCommands)
         {
-            _systemWrapper = systemWrapper;
+            _currentUser = currentUser;
+            _supportedCommands = supportedCommands;
         }
 
         protected override InfoFile GetCommandInternal(string[] args)
         {
-            return new InfoFile(_systemWrapper, args);
+            return new InfoFile(_currentUser, _supportedCommands, args);
         }
     }
 
     [Command]
     public class InfoFile : Command
     {
-        private readonly ISystemWrapper _systemWrapper;
+        private readonly ICurrentUser _currentUser;
+        private readonly ISupportedCommands _supportedCommands;
         private readonly string _filePath;
     
-        public InfoFile(ISystemWrapper systemWrapper, string[] args)
+        public InfoFile(ICurrentUser _currentUser, ISupportedCommands supportedCommands, string[] args)
         {
-            _systemWrapper = systemWrapper ?? throw new ArgumentNullException(nameof(systemWrapper));
+            this._currentUser = _currentUser ?? throw new ArgumentNullException(nameof(_currentUser));
+            _supportedCommands = supportedCommands;
 
             if (args.Length < 1)
             {
@@ -50,10 +54,10 @@ namespace SF.Commands
             var answerList = new List<string>();
             try
             {
-                fullPath = _systemWrapper.GetFileFullPath(_filePath);
-                fileSize = _systemWrapper.GetFileSizeInBytes(_filePath);
-                var fileExstention = _systemWrapper.GetFileExtension(_filePath);
-                var supportedCommands = _systemWrapper.GetSupportedCommands(fileExstention);
+                fullPath = _currentUser.GetFileSystem().GetFileFullPath(_filePath);
+                fileSize = _currentUser.GetFileSystem().GetFileSizeInBytes(_filePath);
+                var fileExstention = _currentUser.GetFileSystem().GetFileExtension(_filePath);
+                var supportedCommands = _supportedCommands.GetSupportedCommands(fileExstention);
                 answerList.Add("Supported Commands: + \n");
                 foreach (var command in supportedCommands)
                 {

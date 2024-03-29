@@ -13,34 +13,40 @@ namespace SF.Commands
 		
 		protected override string[] SupportedExtensions => ["any"];
 
-		private readonly ISystemWrapper _systemWrapper;
+		private readonly ICurrentUser _currentUser;
 
-		public ListFilesInputAction(ISystemWrapper systemWrapper)
+		public ListFilesInputAction(ICurrentUser currentUser)
 		{
-			_systemWrapper = systemWrapper ?? throw new ArgumentNullException(nameof(systemWrapper));
+			_currentUser = currentUser ?? throw new ArgumentNullException(nameof(currentUser));
 		}
 
 		protected override ListFilesCommand GetCommandInternal(string[] args)
 		{
-			return new ListFilesCommand(_systemWrapper);
+			return new ListFilesCommand(_currentUser);
 		}
 	}
 
 	[Command]
 	public class ListFilesCommand : Command
 	{
-		private readonly ISystemWrapper _systemWrapper;
+		private readonly ICurrentUser _currentUser;
 
-		public ListFilesCommand(ISystemWrapper systemWrapper)
+		public ListFilesCommand(ICurrentUser currentUser)
 		{
-			_systemWrapper = systemWrapper ?? throw new ArgumentNullException(nameof(systemWrapper));
+			_currentUser = currentUser ?? throw new ArgumentNullException(nameof(currentUser));
 		}
 
 		public override void Execute()
 		{
 			try
 			{
-				var files = _systemWrapper.GetAllFiles();
+				_currentUser.IsLogged();
+				var tmp = _currentUser.GetFileSystem().GetAll();
+				var files  = new List<string>();
+				foreach (var file in tmp)
+				{
+					files.Add(file.Name + " at " + file.FilePath);
+				}
 				if (files.Count == 0)
 				{
 					Console.WriteLine("You have no files");

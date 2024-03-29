@@ -6,11 +6,17 @@ public class DiContainer : IDiContainer
 
     public void Register(Type interfaceType, Type implementationType, Scope scope)
     {
-        types[interfaceType] = new Binding()
+        // Check if the implementation type already exists in the dictionary
+        if (!types.ContainsKey(implementationType))
         {
-            ImplementationType = implementationType,
-            Scope = scope
-        };
+            types[implementationType] = new Binding()
+            {
+                ImplementationType = implementationType,
+                Scope = scope
+            };
+        }
+        // Register the interface type to point to the existing implementation type
+        types[interfaceType] = types[implementationType];
     }
 
     public void Register<TInterface, TImplementation>(Scope scope)

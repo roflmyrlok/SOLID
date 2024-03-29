@@ -11,11 +11,13 @@ namespace SF.Commands
 		
 		protected override string[] SupportedExtensions => ["any"];
 
-		private readonly ISystemWrapper _systemWrapper;
+		private readonly ICurrentUser _currentUser;
+		private readonly IAccountStorage _accountStorage;
 
-		public RemoveFileInputAction(ISystemWrapper systemWrapper)
+		public RemoveFileInputAction(ICurrentUser currentUser, IAccountStorage accountStorage)
 		{
-			_systemWrapper = systemWrapper;
+			_currentUser = currentUser;
+			_accountStorage = accountStorage;
 		}
 
 		protected override RemoveFileCommand GetCommandInternal(string[] args)
@@ -25,27 +27,40 @@ namespace SF.Commands
 				throw new ArgumentException("File name is required for remove command.");
 			}
 
-			return new RemoveFileCommand(_systemWrapper, args[0]);
+			return new RemoveFileCommand(_currentUser, _accountStorage, args[0]);
 		}
 	}
 
 	[Command]
 	public class RemoveFileCommand : Command
 	{
-		private readonly ISystemWrapper _systemWrapper;
+		private readonly ICurrentUser _currentUser;
 		private readonly string _filePath;
+		private readonly IAccountStorage _accountStorage;
 
-		public RemoveFileCommand(ISystemWrapper systemWrapper, string filePath)
+		public RemoveFileCommand(ICurrentUser currentUser, IAccountStorage accountStorage, string filePath)
 		{
-			_systemWrapper = systemWrapper ?? throw new ArgumentNullException(nameof(systemWrapper));
+			_currentUser = currentUser ?? throw new ArgumentNullException(nameof(currentUser));
 			_filePath = filePath ?? throw new ArgumentNullException(nameof(filePath));
+			_accountStorage = accountStorage;
 		}
 
 		public override void Execute()
 		{
 			try
 			{
-				_systemWrapper.Remove(_filePath);
+				_currentUser.IsLogged();
+				var _currentFileSystem = _currentUser.GetFileSystem();
+				if (!_accountStorage.IsAllowedToAccessFile(_currentUser.GetUser(), _filePath))
+				{
+					throw new Exception("You are not allowed to remove this file.");
+				}
+				if (!_currentFileSystem.ExistByName(_filePath))
+				{
+					throw new Exception($"No file with name {_filePath}");
+				}
+				_accountStorage.RemoveFile(_currentUser.GetUser(), _filePath);
+				_currentFileSystem.Remove(_filePath);
 			}
 			catch (Exception e)
 			{

@@ -13,16 +13,18 @@ namespace SF.Commands
 		
 		protected override string[] SupportedExtensions => [];
 
-		private readonly ISystemWrapper _systemWrapper;
+		private readonly ICurrentUser _currentUser;
+		private readonly IAccountStorage _accountStorage;
 
-		public ChangePlanInputAction(ISystemWrapper systemWrapper)
+		public ChangePlanInputAction(ICurrentUser currentUser, IAccountStorage accountStorage)
 		{
-			_systemWrapper = systemWrapper;
+			_currentUser = currentUser;
+			_accountStorage = accountStorage;
 		}
 
 		protected override ChangePlan GetCommandInternal(string[] args)
 		{
-			return new ChangePlan(_systemWrapper, args);
+			return new ChangePlan(_currentUser, _accountStorage, args);
 		}
 	}
 
@@ -30,22 +32,24 @@ namespace SF.Commands
 	public class ChangePlan : Command
 	{
 		private string _planName;
-		private readonly ISystemWrapper _systemWrapper;
+		private readonly ICurrentUser _currentUser;
+		private readonly IAccountStorage _accountStorage;
 
-		public ChangePlan(ISystemWrapper systemWrapper, string[] args)
+		public ChangePlan(ICurrentUser currentUser, IAccountStorage accountStorage, string[] args)
 		{
 			_planName = args[0];
-			_systemWrapper = systemWrapper;
+			_currentUser = currentUser;
+			_accountStorage = accountStorage;
 		}
 
 		public override void Execute()
 		{
 			try
 			{
-				var isAllowedToChangePlan = _systemWrapper.IsAllowedToChangePlan(_planName);
+				var isAllowedToChangePlan = _currentUser .IsAllowedToChangePlan(_planName, _accountStorage);
 				if (isAllowedToChangePlan)
 				{
-					_systemWrapper.ChangePlan(_planName);
+					 _currentUser .ChangePlan(_planName, _accountStorage);
 					return;
 				}
 				Console.WriteLine("Pls remove some files before changing to a new plan");

@@ -4,14 +4,14 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <OutputType>Exe</OutputType>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\DI.Core\DI.Core.csproj" />
-      <ProjectReference Include="..\EventCollector\EventCollector.csproj" />
-      <ProjectReference Include="..\SF.Commands\SF.Commands.csproj" />
-      <ProjectReference Include="..\SF.Core\SF.Core.csproj" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\SF.Domain\SF.Domain.csproj" />
     </ItemGroup>
+
 </Project>

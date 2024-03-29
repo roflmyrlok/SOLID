@@ -28,7 +28,6 @@ namespace SF.Starter
 			{
 				result.Add(_diContainer.Instantiate<IInputAction>(type));
 			}
-			ISystemWrapper systemWrapper = _diContainer.Resolve<ISystemWrapper>();
 			return result;
 		}
 
@@ -62,7 +61,8 @@ namespace SF.Starter
 					actionsByType[type].Add(name);
 				}
 			}
-
+			//generic
+			actionsByType.Add("T", new List<string>());
 			foreach (var type in actionsByType)
 			{
 				foreach (var command in anyCommands)
@@ -71,8 +71,8 @@ namespace SF.Starter
 				}
 			}
 
-			var tmp = _diContainer.Resolve<ISystemWrapper>();
-			tmp.SetUp(actionsByType);
+			var tmp = _diContainer.Resolve<ISupportedCommands>();
+			tmp.SetUpActionStrategies(actionsByType);
 		}
 	}
 	

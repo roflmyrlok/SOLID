@@ -13,16 +13,19 @@ namespace SF.Commands
 		
 		protected override string[] SupportedExtensions => [];
 
-		private readonly ISystemWrapper _systemWrapper;
+		private readonly ICurrentUser _currentUser;
 
-		public LoginInputAction(ISystemWrapper systemWrapper)
+		private readonly IAccountStorage _accountStorage;
+
+		public LoginInputAction(ICurrentUser currentUser, IAccountStorage accountStorage)
 		{
-			_systemWrapper = systemWrapper;
+			_currentUser = currentUser;
+			_accountStorage = accountStorage;
 		}
 
 		protected override Login GetCommandInternal(string[] args)
 		{
-			return new Login(_systemWrapper, args);
+			return new Login(_currentUser, _accountStorage, args);
 		}
 	}
 
@@ -30,23 +33,21 @@ namespace SF.Commands
 	public class Login : Command
 	{
 		private string _accountName;
-		private readonly ISystemWrapper _systemWrapper;
+		private readonly ICurrentUser _currentUser;
+		private readonly IAccountStorage _accountStorage;
 
-		public Login(ISystemWrapper systemWrapper, string[] args)
+		public Login(ICurrentUser currentUser, IAccountStorage accountStorage, string[] args)
 		{
 			_accountName = args[0];
-			_systemWrapper = systemWrapper;
+			_currentUser = currentUser;
+			_accountStorage = accountStorage;
 		}
 
 		public override void Execute()
 		{
 			try
 			{
-				var attempt = _systemWrapper.Login(_accountName);
-				if (attempt == false)
-				{
-					Console.WriteLine("wrong password");
-				}
+				_currentUser.Login(_accountName, _accountStorage);
 			}
 			catch (Exception e)
 			{

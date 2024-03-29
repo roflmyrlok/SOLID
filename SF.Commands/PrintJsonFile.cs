@@ -13,16 +13,16 @@ namespace SF.Commands
 		
 		protected override string[] SupportedExtensions => [".json"];
 
-		private readonly ISystemWrapper _systemWrapper;
+		private readonly ICurrentUser _currentUser;
 
-		public PrintJsonFileInputAction(ISystemWrapper systemWrapper)
+		public PrintJsonFileInputAction(ICurrentUser currentUser)
 		{
-			_systemWrapper = systemWrapper;
+			_currentUser = currentUser;
 		}
 
 		protected override PrintJsonFile GetCommandInternal(string[] args)
 		{
-			return new PrintJsonFile(_systemWrapper, args);
+			return new PrintJsonFile(_currentUser, args);
 		}
 	}
 
@@ -31,12 +31,12 @@ namespace SF.Commands
 	{
 		private readonly IFileActionStrategy<string> _fileActionStrategy;
 		private readonly string _filePath;
-		private readonly ISystemWrapper _systemWrapper;
+		private readonly ICurrentUser _currentUser;
 
-		public PrintJsonFile(ISystemWrapper systemWrapper, string[] args)
+		public PrintJsonFile(ICurrentUser currentUser, string[] args)
 		{
 			_filePath = args[0];
-			_systemWrapper = systemWrapper;
+			_currentUser = currentUser;
 			_fileActionStrategy = new JsonTableFileActionStrategy();
 		}
 
@@ -44,7 +44,7 @@ namespace SF.Commands
 		{
 			try
 			{
-				var table = _systemWrapper.Execute(_filePath, _fileActionStrategy);
+				var table = _currentUser.GetFileSystem().Execute(_filePath, _fileActionStrategy);
 				Console.WriteLine(table);
 			}
 			catch (Exception e)
